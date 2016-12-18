@@ -1,0 +1,77 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+header {
+	position: absolute;
+	top: 0;
+	left: 50px;
+
+	width: 100%;
+  height: 50px;
+  line-height: 50px;
+
+  padding: 0 1em;
+
+  color: #fff;
+
+  z-index: 1;
+  transition: all 0.2s;
+}
+
+header .brand {
+  display: inline-block;
+
+  width: 100px;
+
+  font-style: italic;
+  font-size: 2em;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+header small {
+	color: #696;
+	font-weight: 300 !important;
+}
+
+header a {
+	color: #fff;
+}
+
+header ul {
+  position: absolute;
+  left: 200px;
+
+	display: inline;
+	list-style-type: none;
+}
+
+header ul li {
+	display: inline;
+}
+
+header ul a {
+	display: inline-block;
+	text-align: center;
+	
+	padding: 0 1em;
+
+  font-weight: 300;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  border-left: 1px solid #111;
+  margin-right: -4px;
+}
+
+header a:hover {
+  color: #afa;
+  text-decoration: none;
+
+  background: #111;
+}
+
+.wrapper {
+	color: #fff;
+}
