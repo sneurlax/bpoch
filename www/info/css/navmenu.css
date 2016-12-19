@@ -46,6 +46,8 @@ html, body { height: 100%; width: 100%; }
 
 .nav-item a:hover {
   color: #afa;
+
+  background: #090909;
 }
 
 .nav-item img {
@@ -69,7 +71,7 @@ html, body { height: 100%; width: 100%; }
   min-height: 100%;
   min-width: 100%;
   padding: 1em;
-  background-color: #090909;
+  background: #090909;
   z-index: 1;
   margin-bottom: -50px;
   box-shadow: 0 0 10px #000;
