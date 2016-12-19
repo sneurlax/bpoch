@@ -48,6 +48,7 @@ html, body { height: 100%; width: 100%; }
   color: #afa;
 
   background: #090909;
+  border-bottom: 1px solid #222;
 }
 
 .nav-item img {
