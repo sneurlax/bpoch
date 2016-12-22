@@ -19,7 +19,7 @@ Here are all the official bpoch domains:
 
 ###### Under development:
 * Block explorers for:
-  * BTC (Bitcoin
+  * BTC (Bitcoin)
   * XMR (Monero)
   * SDC (Shadowcash)
 * Webwallet for:
