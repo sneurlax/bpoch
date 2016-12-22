@@ -68,8 +68,6 @@ header ul a {
 header a:hover {
   color: #afa;
   text-decoration: none;
-
-  background: #111;
 }
 
 .wrapper {

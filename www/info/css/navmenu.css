@@ -25,14 +25,6 @@ html, body { height: 100%; width: 100%; }
   width: 200px;
 
   height: 49px;
-
-  border-bottom: 1px solid #222;
-}
-
-.nav-item:first-child {
-  height: 48px;
-
-  border-top: 1px solid #222;
 }
 
 .nav-item a {
@@ -41,14 +33,20 @@ html, body { height: 100%; width: 100%; }
   color: #fff;
   font-size: 0.777em;
   text-decoration: none;
-  text-transform: uppercase
+  text-transform: uppercase;
+
+  border-bottom: 1px solid #222;
 }
 
-.nav-item a:hover {
+.nav-item a:hover, header ul a:hover {
   color: #afa;
 
-  background: #090909;
-  border-bottom: 1px solid #222;
+  background: #111;
+  border-bottom: 1px solid #333;
+}
+
+.nav-item:first-child {
+  border-top: 1px solid #222;
 }
 
 .nav-item img {
