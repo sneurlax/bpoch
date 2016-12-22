@@ -2,6 +2,8 @@ RewriteEngine On
 RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^apidocs(/.*)?$ /apidocs.html [NC,L]
+RewriteRule ^charts(/.*)?$ /charts.html [NC,L]
 RewriteRule ^btc(/.*)?$ /btc.html [NC,L]
 RewriteRule ^xmr(/.*)?$ /xmr.html [NC,L]
 RewriteRule ^sdc(/.*)?$ /sdc.html [NC,L]
