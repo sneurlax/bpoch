@@ -1,6 +1,6 @@
 # bpoch
 
-This repo houses multiple services/products, including the frontend code for several block explorers (for BTC, XMR, SDC, XCP, DASH, ETH, and ETC,) the bpoch time/clock standard, and the news & community side of the project.
+This repo houses multiple services/products, including the frontend code for several block explorers (for BTC, XMR, SDC, XCP, ETH, and ETC,) the bpoch time/clock standard, and the news & community side of the project.
 
 Here are all the official bpoch domains:
 
@@ -35,6 +35,5 @@ Here are all the official bpoch domains:
   * Rarepepe (based on RarePepeWallet)
 * Block explorers for:
   * Counterparty (XCP)
-  * Dash (DASH)
   * Ethereum (ETH)
   * Ethereum Classic (ETC)
