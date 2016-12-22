@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^btc(/.*)?$ /btc.html [NC,L]
+RewriteRule ^xmr(/.*)?$ /xmr.html [NC,L]
+RewriteRule ^sdc(/.*)?$ /sdc.html [NC,L]
+RewriteRule ^xcp(/.*)?$ /xcp.html [NC,L]
+RewriteRule ^dash(/.*)?$ /dash.html [NC,L]
+RewriteRule ^eth(/.*)?$ /eth.html [NC,L]
+RewriteRule ^etc(/.*)?$ /etc.html [NC,L]
