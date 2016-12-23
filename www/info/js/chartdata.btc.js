@@ -10,7 +10,7 @@ var techanSite = techanSite || {};
   var btcData = httpGet('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_BTC&period=86400&start='+(Math.round((new Date()).getTime() / 1000)-17280000)+'&end='+(Math.round((new Date()).getTime() / 1000)));
   btcData = btcData.replace(/{/g, '[').replace(/}/g, ']');
   btcData = btcData.replace(/"date":/g, '').replace(/"high":/g, '').replace(/"low":/g, '').replace(/"open":/g, '').replace(/"close":/g, '').replace(/"volume":/g, '').replace(/"quoteVolume":/g, '').replace(/"weightedAverage":/g, '');
-
+  
   techanSite.data.btc.ohlc = mapToStructure(
     JSON.parse(btcData)
   );
