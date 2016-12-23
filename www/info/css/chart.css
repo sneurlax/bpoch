@@ -1,0 +1,189 @@
+#bigChart {
+  min-height: 25em;
+
+  margin-right: 50px;
+}
+
+/* Chart specific styling */
+svg {
+  font: 10px 'Ubuntu';
+}
+
+text.version {
+  fill: #555555;
+  font: 10px 'Ubuntu';
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #aaa;
+  shape-rendering: crispEdges;
+}
+
+text {
+  fill: #ddd;
+  font: 10px 'Ubuntu';
+  font-weight: 700;
+}
+
+path {
+  fill: none;
+  stroke-width: 1;
+}
+
+path.candle {
+  stroke: #000000;
+}
+
+path.candle.body {
+  stroke-width: 0;
+}
+
+path.candle {
+  fill: #777777;
+  stroke: #777777;
+}
+
+path.candle.up {
+  fill: #99cc99;
+  stroke: #afa;
+}
+
+path.candle.down {
+  fill: #cc6666;
+  stroke: #663333;
+}
+
+.closeValue.annotation.up path {
+  fill: #333;
+}
+
+path.volume {
+  fill: #aaa;
+}
+
+.indicator-plot path.line {
+  fill: none;
+  stroke-width: 1;
+}
+
+.ma-0 path.line {
+  stroke: #1f77b4;
+}
+
+.ma-1 path.line {
+  stroke: #aec7e8;
+}
+
+.ma-2 path.line {
+  stroke: #ff7f0e;
+}
+
+button {
+  position: absolute;
+  right: 110px;
+  top: 25px;
+}
+
+path.macd {
+  stroke: #aec7e8;
+}
+
+path.signal {
+  stroke: #FF9999;
+}
+
+path.zero {
+  stroke: #BBBBBB;
+  stroke-dasharray: 0;
+  stroke-opacity: 0.5;
+}
+
+path.difference {
+  fill: #777777;
+}
+
+path.rsi {
+  stroke: #aec7e8;
+}
+
+path.overbought, path.oversold {
+  stroke: #FF9999;
+  stroke-dasharray: 5, 5;
+}
+
+path.middle, path.zero {
+  stroke: #BBBBBB;
+  stroke-dasharray: 5, 5;
+}
+
+.analysis path, .analysis circle {
+  stroke: yellow;
+  stroke-width: 0.7;
+}
+
+.interaction path, .interaction circle {
+  pointer-events: all;
+}
+
+.interaction .body {
+  cursor: move;
+}
+
+.trendlines .interaction .start, .trendlines .interaction .end {
+  cursor: nwse-resize;
+}
+
+.trendline circle {
+  stroke-width: 0;
+  display: none;
+}
+.mouseover .trendline path {
+  stroke-width: 1;
+}
+
+.mouseover .trendline circle {
+  stroke-width: 1;
+  fill: yellow;
+  display: inline;
+}
+
+.supstance path {
+  stroke-dasharray: 2, 2;
+}
+
+.supstances .interaction path {
+  pointer-events: all;
+  cursor: ns-resize;
+}
+
+.supstances .axisannotation {
+  display: none;
+}
+
+.supstances .mouseover .axisannotation {
+  display: inline;
+}
+
+.supstances .axisannotation path {
+  fill: #806517;
+  stroke: none;
+}
+
+.mouseover .supstance path {
+  stroke-width: 1.5;
+}
+
+.crosshair {
+  cursor: crosshair;
+}
+
+.crosshair path.wire {
+  stroke: #555555;
+  stroke-dasharray: 1, 1;
+}
+
+.crosshair .axisannotation path {
+  fill: #333;
+}

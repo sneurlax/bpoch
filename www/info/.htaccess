@@ -2,12 +2,12 @@ RewriteEngine On
 RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^apidocs(/.*)?$ /apidocs.html [NC,L]
-RewriteRule ^charts(/.*)?$ /charts.html [NC,L]
-RewriteRule ^btc(/.*)?$ /btc.html [NC,L]
-RewriteRule ^xmr(/.*)?$ /xmr.html [NC,L]
-RewriteRule ^sdc(/.*)?$ /sdc.html [NC,L]
-RewriteRule ^xcp(/.*)?$ /xcp.html [NC,L]
-RewriteRule ^dash(/.*)?$ /dash.html [NC,L]
-RewriteRule ^eth(/.*)?$ /eth.html [NC,L]
-RewriteRule ^etc(/.*)?$ /etc.html [NC,L]
+RewriteRule ^apidocs(/.*)?$ /apidocs.php [NC,L]
+RewriteRule ^charts(/.*)?$ /charts.php [NC,L]
+RewriteRule ^btc(/.*)?$ /btc.php [NC,L]
+RewriteRule ^xmr(/.*)?$ /xmr.php [NC,L]
+RewriteRule ^sdc(/.*)?$ /sdc.php [NC,L]
+RewriteRule ^xcp(/.*)?$ /xcp.php [NC,L]
+RewriteRule ^dash(/.*)?$ /dash.php [NC,L]
+RewriteRule ^eth(/.*)?$ /eth.php [NC,L]
+RewriteRule ^etc(/.*)?$ /etc.php [NC,L]
