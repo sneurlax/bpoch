@@ -43,6 +43,8 @@ html, body { height: 100%; width: 100%; }
 
   background: #111;
   border-bottom: 1px solid #333;
+
+  box-shadow: 0 0 50px #000;
 }
 
 .nav-item:first-child {
