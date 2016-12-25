@@ -73,3 +73,38 @@ header a:hover {
 .wrapper {
 	color: #fff;
 }
+
+#age div:nth-child(2) h1:before {
+  content: "-";
+  margin-left: -46px;
+  margin-right: 20px;
+  color: #333;
+}
+
+#age div:nth-child(3) h1:before {
+  content: "-";
+  margin-left: -26px;
+  color: #333;
+}
+
+#age div:nth-child(5) h1:before {
+  content: ":";
+  margin-left: -18px;
+  margin-right: -4px;
+  color: #333;
+}
+
+#age div:nth-child(6) h1:before {
+  content: ":";
+  margin-left: -22px;
+  margin-right: -2px;
+  color: #333;
+}
+
+.col-age {
+  display: inline-block;
+  width: 6em;
+}
+
+  text-transform: uppercase;
+}

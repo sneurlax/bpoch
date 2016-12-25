@@ -8,8 +8,9 @@
     <title>bpoch.info</title>
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
 
-    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet">
+    <link href="css/bootstrap-flex.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <link href="/css/navmenu.css" rel="stylesheet">
     <link href="/css/theme.css" rel="stylesheet">
 
@@ -48,18 +49,88 @@
       </ul>
     </header>
 
+    <?php
+
+    include 'php/bpoch.php';
+
+    $bpoch = bpoch();
+
+    //echo "It has been $bpoch seconds since the bitcoin genesis block.<br><br>";
+
+    $seconds = $bpoch%(60);
+    $minutes = floor($bpoch%(60*60)/(60));
+    $hours   = floor($bpoch%(60*60*24)/(60*60));
+    $date    = floor($bpoch%(60*60*24*30.44)/(60*60*24));
+    $days    = floor($bpoch%(60*60*24*30.44)/(60*60*24))%7;
+    $weeks   = floor($bpoch%(60*60*24*30.44)/(60*60*24*7));
+    $months  = floor($bpoch%(60*60*24*30.44*12)/(60*60*24*30.44));
+    $years   = floor($bpoch%(60*60*24*30.44*12*365.25)/(60*60*24*30.44*12));
+
+    //echo "Bitcoin is $years years, $months months, $weeks weeks, $days days, $hours hours, $minutes minutes, and $seconds old.<br>";
+    //echo "bpoch date: $years-$months-$date<br>";
+
+    ?>
+
     <div class="wrapper">
-      <?php
-
-      include 'php/bpoch.php';
-
-      $bpoch = bpoch();
-
-      echo "It has been $bpoch seconds since the bitcoin genesis block.";
-
-      ?>
+      <div class="container">
+        <div class="row flex-items-xs-center">
+          <div class="col-xs-7">
+            <h2 class="display-4">Bitcoin is</h2>
+          </div>
+        </div>
+        <br>
+        <div class="row flex-items-xs-center" id="age">
+          <div class="col-age"><h1 class="display-3" id="age-years"><?php echo $years; ?></h1><small>Years</small></div>
+          <div class="col-age"><h1 class="display-3" id="age-months"><?php echo $months; ?></h1><small>Months</small></div>
+          <!--
+          <div class="col-age"><h1 class="display-3" id="age-weeks"><?php echo $weeks; ?></h1></div>
+          <div class="col-age"><h1 class="display-3" id="age-days"><?php echo $days; ?></h1></div>
+          -->
+          <div class="col-age"><h1 class="display-3" id="age-date"><?php echo sprintf("%02d", $date); ?></h1><small>Days</small></div>
+          <div class="col-age"><h1 class="display-3" id="age-hours"><?php echo sprintf("%02d", $hours); ?></h1><small>Hours</small></div>
+          <div class="col-age"><h1 class="display-3" id="age-minutes"><?php echo sprintf("%02d", $minutes); ?></h1><small>Minutes</small></div>
+          <div class="col-age"><h1 class="display-3" id="age-seconds"><?php echo sprintf("%02d", $seconds); ?></h1><small>Seconds</small></div>
+        </div>
+        <br>
+        <div class="row flex-items-xs-center">
+          <div class="col-xs-7">
+            <h2 class="display-4" style="float: right;">old</h2>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+      var bpoch = <?php echo $bpoch; ?>;
+
+      updateTime();
+
+      function updateTime() {
+        bpoch++;
+        var seconds = bpoch%(60);
+        var minutes = Math.floor(bpoch%(60*60)/(60));
+        var hours   = Math.floor(bpoch%(60*60*24)/(60*60));
+        var date    = Math.floor(bpoch%(60*60*24*30.44)/(60*60*24));
+        var days    = Math.floor(bpoch%(60*60*24*30.44)/(60*60*24))%7;
+        var weeks   = Math.floor(bpoch%(60*60*24*30.44)/(60*60*24*7));
+        var months  = Math.floor(bpoch%(60*60*24*30.44*12)/(60*60*24*30.44));
+        var years   = Math.floor(bpoch%(60*60*24*30.44*12*365.25)/(60*60*24*30.44*12));
+        $("#age-seconds").html(pad(seconds));
+        $("#age-minutes").html(pad(minutes));
+        $("#age-hours").html(pad(hours));
+        $("#age-date").html(pad(date));
+        $("#age-days").html(pad(days));
+        $("#age-weeks").html(pad(weeks));
+        $("#age-months").html(pad(months));
+        $("#age-years").html(years);
+        setTimeout(updateTime, 1000);
+      }
+
+      function pad(n) {
+        return (n < 10) ? ("0" + n) : n;
+      }
+    </script>
     <!-- <script src="/js/bootstrap.min.js"></script> -->
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
   </body>
