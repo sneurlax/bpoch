@@ -49,7 +49,15 @@
     </header>
 
     <div class="wrapper">
-      I think you want to try <a href="/btc">/btc/</a> for the charts...
+      <?php
+
+      include 'php/bpoch.php';
+
+      $bpoch = bpoch();
+
+      echo "It has been $bpoch seconds since the bitcoin genesis block.";
+
+      ?>
     </div>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- <script src="/js/bootstrap.min.js"></script> -->
