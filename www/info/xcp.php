@@ -50,22 +50,70 @@
       </ul>
     </header>
 
+    <?php
+
+    include 'php/bpoch.php';
+
+    $bpoch = bpoch('xcp');
+
+    $seconds = $bpoch%(60);
+    $minutes = floor($bpoch%(60*60)/(60));
+    $hours   = floor($bpoch%(60*60*24)/(60*60));
+    $date    = floor($bpoch%(60*60*24*30.44)/(60*60*24));
+    $days    = floor($bpoch%(60*60*24*30.44)/(60*60*24))%7;
+    $weeks   = floor($bpoch%(60*60*24*30.44)/(60*60*24*7));
+    $months  = floor($bpoch%(60*60*24*30.44*12)/(60*60*24*30.44));
+    $years   = floor($bpoch%(60*60*24*30.44*12*365.25)/(60*60*24*30.44*12));
+
+    ?>
+
     <div class="wrapper">
       <div id="bigChart"></div>
 
-      <script src="https://d3js.org/d3.v4.min.js"></script>
-      <script src="/js/techan.js"></script>
-      <script src="/js/chartdata.xcp.js"></script>
-      <script src="/js/chart.js"></script>
-      <script>
-        (function(window, d3, techanSite) {
-          d3.select('div#bigChart').call(techanSite.bigchart);
-          window.onresize = function() {
-            d3.select('div#bigChart').call(techanSite.bigchart.resize);
-          };
-        })(window, d3, techanSite);
-      </script>
+      <p>Counterparty is <span id="age-years"><?php echo $years; ?></span> years, <span id="age-months"><?php echo $months; ?></span> months, <span id="age-date"><?php echo $date; ?></span> days, <span id="age-hours"><?php echo $hours; ?></span> hours, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
     </div>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="/js/techan.js"></script>
+    <script src="/js/chartdata.xcp.js"></script>
+    <script src="/js/chart.js"></script>
+    <script>
+      (function(window, d3, techanSite) {
+        d3.select('div#bigChart').call(techanSite.bigchart);
+        window.onresize = function() {
+          d3.select('div#bigChart').call(techanSite.bigchart.resize);
+        };
+      })(window, d3, techanSite);
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var bpoch = <?php echo $bpoch; ?>;
+
+      updateTime();
+
+      function updateTime() {
+        bpoch++;
+        var seconds = bpoch%(60);
+        var minutes = Math.floor(bpoch%(60*60)/(60));
+        var hours   = Math.floor(bpoch%(60*60*24)/(60*60));
+        var date    = Math.floor(bpoch%(60*60*24*30.44)/(60*60*24));
+        var days    = Math.floor(bpoch%(60*60*24*30.44)/(60*60*24))%7;
+        var weeks   = Math.floor(bpoch%(60*60*24*30.44)/(60*60*24*7));
+        var months  = Math.floor(bpoch%(60*60*24*30.44*12)/(60*60*24*30.44));
+        var years   = Math.floor(bpoch%(60*60*24*30.44*12*365.25)/(60*60*24*30.44*12));
+        $("#age-seconds").html(seconds);
+        $("#age-minutes").html(minutes);
+        $("#age-hours").html(hours);
+        $("#age-date").html(date);
+        $("#age-days").html(days);
+        $("#age-weeks").html(weeks);
+        $("#age-months").html(months);
+        $("#age-years").html(years);
+        setTimeout(updateTime, 1000);
+      }
+    </script>
+    
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- <script src="/js/bootstrap.min.js"></script> -->
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->

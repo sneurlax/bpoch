@@ -55,8 +55,6 @@
 
     $bpoch = bpoch();
 
-    //echo "It has been $bpoch seconds since the bitcoin genesis block.<br><br>";
-
     $seconds = $bpoch%(60);
     $minutes = floor($bpoch%(60*60)/(60));
     $hours   = floor($bpoch%(60*60*24)/(60*60));
@@ -65,9 +63,6 @@
     $weeks   = floor($bpoch%(60*60*24*30.44)/(60*60*24*7));
     $months  = floor($bpoch%(60*60*24*30.44*12)/(60*60*24*30.44));
     $years   = floor($bpoch%(60*60*24*30.44*12*365.25)/(60*60*24*30.44*12));
-
-    //echo "Bitcoin is $years years, $months months, $weeks weeks, $days days, $hours hours, $minutes minutes, and $seconds old.<br>";
-    //echo "bpoch date: $years-$months-$date<br>";
 
     ?>
 
@@ -99,8 +94,8 @@
         </div>
       </div>
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
     <script type="text/javascript">
       var bpoch = <?php echo $bpoch; ?>;
 
@@ -131,6 +126,7 @@
         return (n < 10) ? ("0" + n) : n;
       }
     </script>
+    
     <!-- <script src="/js/bootstrap.min.js"></script> -->
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
   </body>
