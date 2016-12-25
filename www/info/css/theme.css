@@ -106,5 +106,6 @@ header a:hover {
   width: 6em;
 }
 
+#age small {
   text-transform: uppercase;
 }
