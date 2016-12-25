@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>bpoch.info</title>
+    <title>bpoch.info/sdc</title>
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
 
     <link href="css/bootstrap-reboot.css" rel="stylesheet">
