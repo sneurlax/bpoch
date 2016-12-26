@@ -73,9 +73,9 @@
       <p>Bitcoin is <span id="age-years"><?php echo $years; ?></span> years, <span id="age-months"><?php echo $months; ?></span> months, <span id="age-date"><?php echo $date; ?></span> days, <span id="age-hours"><?php echo $hours; ?></span> hours, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/js/techan.js"></script>
-    <script src="/js/chartdata.btc.js"></script>
     <script src="/js/chart.js"></script>
     <script>
       (function(window, d3, techanSite) {
@@ -86,7 +86,6 @@
       })(window, d3, techanSite);
     </script>
     
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var bpoch = <?php echo $bpoch; ?>;
 
