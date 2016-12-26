@@ -28,13 +28,13 @@ techanSite.bigchart = (function(d3, techan) {
         xAxisTop = d3.axisTop(x),
         timeAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.timeFormat('%Y-%m-%d')).width(65),
         timeAnnotationTop = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(d3.timeFormat('%Y-%m-%d')).width(65),
-        yAxis = d3.axisLeft(y),
-        percentAxis = d3.axisRight(yPercent).tickFormat(d3.format('+.1%')),
+        yAxis = d3.axisRight(y),
+        percentAxis = d3.axisLeft(yPercent).tickFormat(d3.format('+.1%')),
         percentAnnotation = techan.plot.axisannotation().orient('right').axis(percentAxis),
         volumeAxis = d3.axisLeft(yVolume).ticks(3).tickFormat(d3.format(',.3s')),
         volumeAnnotation = techan.plot.axisannotation().orient('right').axis(volumeAxis).width(35);
 
-    if(stock.name == 'Bitcoin') {
+    if(stock.name == 'Bitcoin [BTC]') {
       var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.2f')),
           closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.2f'));
     } else {
@@ -77,12 +77,6 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("class", "chart")
         .attr("transform", "translate(" + dim.margin.left + "," + dim.margin.top + ")");
 
-      svg.append('text')
-        .attr("class", "symbol")
-        .attr("x", 5)
-        .attr("y", 15)
-        .text(stock.name);
-
       svg.append("g")
         .attr("class", "x axis bottom");
 
@@ -94,7 +88,7 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("transform", "translate(0,0)");
 
       ohlcSelection.append("g")
-          .attr("class", "x axis");
+          .attr("class", "y axis");
 
       ohlcSelection.append("g")
         .attr("class", "closeValue annotation up");
@@ -107,8 +101,8 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("class", "candlestick")
         .attr("clip-path", "url(#ohlcClip)");
 
-      //ohlcSelection.append("g")
-      //  .attr("class", "percent axis");
+      ohlcSelection.append("g")
+        .attr("class", "percent axis");
 
       ohlcSelection.append("g")
         .attr("class", "volume axis");
@@ -137,6 +131,13 @@ techanSite.bigchart = (function(d3, techan) {
       svg.select("g.ema.ma-2").datum(techan.indicator.ema().period(50)(data)).call(ema2);
 
       svg.select("g.crosshair.ohlc").call(ohlcCrosshair);
+
+      svg.append('text')
+        .attr("class", "symbol")
+        .attr("x", 5)
+        .attr("y", 15)
+        .attr("class", "shadow")
+        .text(stock.name);
 
       selection.call(draw);
     }

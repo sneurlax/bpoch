@@ -4,7 +4,7 @@ var techanSite = techanSite || {};
   'use strict';
 
   techanSite.data = {
-    btc: { name: "Bitcoin" }
+    btc: { name: 'Bitcoin [BTC]' }
   };
 
   var btcData = httpGet('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_BTC&period=86400&start='+(Math.round((new Date()).getTime() / 1000)-17280000)+'&end='+(Math.round((new Date()).getTime() / 1000)));
@@ -24,14 +24,14 @@ var techanSite = techanSite || {};
   function mapToStructure(data) {
     return data.map(function(d) {
       return {
-        date: d[0],
+        date: new Date(d[0]*1000),
         open: +d[3],
         high: +d[1],
         low: +d[2],
         close: +d[4],
         volume: +d[5]
       };
-    })
+    }).sort(function(a, b) { return d3.ascending(a.date, b.date); });
   }
  }());
 

@@ -12,8 +12,8 @@ svg {
 text.version {
   fill: #555555;
   font: 10px 'Ubuntu';
-}
 
+}
 .axis path,
 .axis line {
   fill: none;
@@ -25,6 +25,14 @@ text {
   fill: #ddd;
   font: 10px 'Ubuntu';
   font-weight: 700;
+}
+
+text.shadow {
+  text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+   -1px  1px 0 #000,
+    1px  1px 0 #000;
 }
 
 path {
