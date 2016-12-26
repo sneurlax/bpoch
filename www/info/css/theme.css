@@ -74,38 +74,56 @@ header a:hover {
 	color: #fff;
 }
 
-#age div:nth-child(2) h1:before {
-  content: "-";
-  margin-left: -46px;
-  margin-right: 20px;
+#age h2 {
+  white-space: nowrap;
+}
+
+#age h1 {
   color: #333;
+  white-space: nowrap;
 }
 
-#age div:nth-child(3) h1:before {
-  content: "-";
-  margin-left: -26px;
-  color: #333;
+#age h1 span {
+  color: #fff;
+  position: relative;
 }
 
-#age div:nth-child(5) h1:before {
-  content: ":";
-  margin-left: -18px;
-  margin-right: -4px;
-  color: #333;
+#age-years:after, #age-months:after, #age-weeks:after, #age-days:after, #age-date:after, #age-hours:after, #age-minutes:after, #age-seconds:after {
+  position: absolute;
+  left: 4px;
+  bottom: -16px;
+  font-size: 16px;
+  text-transform: uppercase
 }
 
-#age div:nth-child(6) h1:before {
-  content: ":";
-  margin-left: -22px;
-  margin-right: -2px;
-  color: #333;
+#age-years:after {
+  content: "years";
 }
 
-.col-age {
-  display: inline-block;
-  width: 6em;
+#age-months:after {
+  content: "months";
 }
 
-#age small {
-  text-transform: uppercase;
+#age-weeks:after {
+  content: "weeks";
+}
+
+#age-days:after {
+  content: "days";
+}
+
+#age-date:after {
+  content: "days";
+}
+
+#age-hours:after {
+  content: "hours";
+}
+
+#age-minutes:after {
+  content: "minutes";
+}
+
+#age-seconds:after {
+  content: "seconds";
 }
