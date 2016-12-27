@@ -2625,7 +2625,7 @@ fieldset[disabled] a.btn {
 }
 
 .btn-secondary.disabled {
-  color: #696;
+  color: #fff;
 }
 
 .btn-secondary.disabled:focus, .btn-secondary.disabled.focus, .btn-secondary:disabled:focus, .btn-secondary:disabled.focus {
