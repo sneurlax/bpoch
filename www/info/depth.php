@@ -35,6 +35,14 @@
   stroke-width: 1.5px;
 }
 
+.bids {
+  stroke: green;
+}
+
+.asks {
+  stroke: red;
+}
+
 </style>
   </head>
   <body>
