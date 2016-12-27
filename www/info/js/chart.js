@@ -156,8 +156,10 @@ techanSite.bigchart = (function(d3, techan) {
     };
 
     var data = stock.ohlc,
-        x = techan.scale.financetime(),
-        y = d3.scaleLinear(),
+        x = techan.scale.financetime()
+            .range([0, dim.width]),
+        y = d3.scaleLinear()
+            .range([dim.height, 0]),
         yPercent = y.copy(),
         indicatorTop = d3.scaleLinear(),
         yVolume = d3.scaleLinear(),
@@ -174,7 +176,11 @@ techanSite.bigchart = (function(d3, techan) {
         percentAxis = d3.axisLeft(yPercent).tickFormat(d3.format('+.1%')),
         percentAnnotation = techan.plot.axisannotation().orient('right').axis(percentAxis),
         volumeAxis = d3.axisLeft(yVolume).ticks(3).tickFormat(d3.format(',.3s')),
-        volumeAnnotation = techan.plot.axisannotation().orient('right').axis(volumeAxis).width(35);
+        volumeAnnotation = techan.plot.axisannotation().orient('right').axis(volumeAxis).width(35),
+        zoom = d3.zoom()
+              .on("zoom", zoomed),
+        zoomableInit,
+        accessor = candlestick.accessor();
 
     if(stock.name == 'Bitcoin [BTC]') {
       var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.2f')),
@@ -282,6 +288,10 @@ techanSite.bigchart = (function(d3, techan) {
         .text(stock.name);
 
       selection.call(draw);
+
+      // Associate the zoom with the scale after a domain has been applied
+      // Stash initial settings to store as baseline for zooming
+      zoomableInit = x.zoomable().clamp(false).copy();
     }
 
     bigchart.resize = function(selection) {
@@ -306,9 +316,11 @@ techanSite.bigchart = (function(d3, techan) {
 
       indicatorTop.range([dim.indicator.top, dim.indicator.bottom]);
       x.range(xRange);
+      x.domain(data.map(accessor.d));
       xAxis.ticks(xTicks);
       xAxisTop.ticks(xTicks);
       y.range(yRange);
+      y.domain(techan.scale.plot.ohlc(data, accessor).domain());
       yAxis.ticks(ohlcVerticalTicks);
       yPercent.range(y.range());
       percentAxis.ticks(ohlcVerticalTicks);
@@ -367,6 +379,18 @@ techanSite.bigchart = (function(d3, techan) {
       svg.select("g.closeValue.annotation").call(closeAnnotation.refresh);
       svg.select("g.volume").call(volume.refresh);
       svg.select("g.crosshair.ohlc").call(ohlcCrosshair.refresh);
+    }
+
+    function zoomed() {
+      var rescaledY = d3.event.transform.rescaleY(y);
+      yAxis.scale(rescaledY);
+      candlestick.yScale(rescaledY);
+
+      // Emulates D3 behaviour, required for financetime due to secondary zoomable scale
+      x.zoomable().domain(d3.event.transform.rescaleX(zoomableInit).domain());
+
+      svg.select("g.candlestick").datum(data);
+      draw();
     }
 
     return bigchart;
