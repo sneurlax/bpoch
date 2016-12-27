@@ -107,7 +107,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
-            <p>Ethereum Classic is <span id="age-years"><?php echo $years; ?></span> years, <span id="age-months"><?php echo $months; ?></span> months, <span id="age-date"><?php echo $date; ?></span> days, <span id="age-hours"><?php echo $hours; ?></span> hours, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
+            <p>Ethereum Classic is <?php echo ( $years > 0 ? '<span id="age-years">'.$years.'</span> year'.( $years > 1 ? 's' : '' ).', ' : '' ); ?><span id="age-months"><?php echo $months; ?></span> month<?php echo ( $months > 1 ? 's' : '' ); ?>, <span id="age-date"><?php echo $date; ?></span> day<?php echo ( $date > 1 ? 's' : '' ); ?>, <span id="age-hours"><?php echo $hours; ?></span> hour<?php echo ( $hours > 1 ? 's' : '' ); ?>, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
           </div>
         </div>
       </div>
