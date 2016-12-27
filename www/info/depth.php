@@ -84,6 +84,10 @@
     stroke-width: 1px;
 }
 
+.crosshairBackground {
+  fill: #333;
+}
+
 </style>
   </head>
   <body>
