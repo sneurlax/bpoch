@@ -70,7 +70,49 @@
     <div class="wrapper">
       <div id="bigChart"></div>
 
-      <p>Shadowcash is <span id="age-years"><?php echo $years; ?></span> years, <span id="age-months"><?php echo $months; ?></span> months, <span id="age-date"><?php echo $date; ?></span> days, <span id="age-hours"><?php echo $hours; ?></span> hours, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
+      <div class="container" id="toolbar">
+        <div class="row flex-items-xs-center">
+          <div class="col-xs-5">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group btn-group-sm" role="group" aria-label="Zoom">
+                <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Zoom:</button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6h');">6 hr</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1d');">1 d</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '2d');">2 d</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1w');">1 w</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '2w');">2 w</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1m');">1 m</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '3m');">3 m</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6m');">6 m</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', 'all');">all</a></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-5">
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group btn-group-sm" role="group" aria-label="Candlesticks">
+                <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Candlesticks:</button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '5min');">5 min</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '15min');">15 min</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '30min');">30 min</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '2h');">2 hr</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '4h');">4 hr</a></button>
+                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '1d');">1 day</a></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <p>Shadowcash is <span id="age-years"><?php echo $years; ?></span> years, <span id="age-months"><?php echo $months; ?></span> months, <span id="age-date"><?php echo $date; ?></span> days, <span id="age-hours"><?php echo $hours; ?></span> hours, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>

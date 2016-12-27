@@ -88,7 +88,7 @@ header a:hover {
   position: relative;
 }
 
-#age-years:after, #age-months:after, #age-weeks:after, #age-days:after, #age-date:after, #age-hours:after, #age-minutes:after, #age-seconds:after {
+#age #age-years:after, #age #age-months:after, #age #age-weeks:after, #age #age-days:after, #age #age-date:after, #age #age-hours:after, #age #age-minutes:after, #age #age-seconds:after {
   position: absolute;
   left: 4px;
   bottom: -16px;
@@ -96,34 +96,39 @@ header a:hover {
   text-transform: uppercase
 }
 
-#age-years:after {
+#age #age-years:after {
   content: "years";
 }
 
-#age-months:after {
+#age #age-months:after {
   content: "months";
 }
 
-#age-weeks:after {
+#age #age-weeks:after {
   content: "weeks";
 }
 
-#age-days:after {
+#age #age-days:after {
   content: "days";
 }
 
-#age-date:after {
+#age #age-date:after {
   content: "days";
 }
 
-#age-hours:after {
+#age #age-hours:after {
   content: "hours";
 }
 
-#age-minutes:after {
+#age #age-minutes:after {
   content: "minutes";
 }
 
-#age-seconds:after {
+#age #age-seconds:after {
   content: "seconds";
+}
+
+#toolbar {
+  margin: -1em 0 2em 10em;
+  width: 100%;
 }

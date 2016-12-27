@@ -12,8 +12,8 @@ techanSite.bigchart = (function(d3, techan) {
     etc: { name: 'Ethereum Classic [ETC]' }
   };
 
-  var url = $(location).attr('href');
-  var coin = url.substr(url.length - 3);
+  var url = window.location.pathname;
+  var coin = url.substr(1, 3);
 
   if( coin == 'xmr' ) {
     var pair = 'BTC_XMR';
@@ -29,7 +29,93 @@ techanSite.bigchart = (function(d3, techan) {
     var pair = 'USDT_BTC';
   }
 
-  var Data = httpGet('https://poloniex.com/public?command=returnChartData&currencyPair='+pair+'&period=86400&start='+(Math.round((new Date()).getTime() / 1000)-17280000)+'&end='+(Math.round((new Date()).getTime() / 1000)));
+  var zoom = getUrlParameter('zoom');
+  var start = 0;
+  if( !zoom ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*30.44*6); // 6m default
+  } else if( zoom == '6h' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*6);
+  } else if( zoom == '1d' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24);
+  } else if( zoom == '2d' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*2);
+  } else if( zoom == '4d' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*4);
+  } else if( zoom == '1w' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*7);
+  } else if( zoom == '2w' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*14);
+  } else if( zoom == '1m' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*30.44);
+  } else if( zoom == '3m' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*30.44*3);
+  } else if( zoom == '6m' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*30.44*6);
+  } else if( zoom == '1y' ) {
+    start = Math.round((new Date()).getTime() / 1000)-(60*60**24*30.44*365.25);
+  } else if( zoom == 'all' ) { // these values are the earliest timestamps for which Poloniex has data
+    if( coin == 'xmr' ) {
+      start = 1400558400;
+    } else if( coin == 'sdc' ) {
+      start = 1442599200;
+    } else if( coin == 'xcp' ) {
+      start = 1392487200;
+    } else if( coin == 'eth' ) {
+      start = 1439049600;
+    } else if( coin == 'etc' ) {
+      start = 1469347200;
+    } else {
+      start = 1231028105;
+    }
+  }
+
+  var end = getUrlParameter('end');
+  if( !end ) {
+    end = Math.round((new Date()).getTime() / 1000);
+  }
+
+  var period = getUrlParameter('period');
+  if( !period ) {
+    period = 60*60*24;
+    if( zoom == '6h' ) {
+      period = 60*5;
+    } else if( zoom == '1d' ) {
+      period = 60*15;
+    } else if( zoom == '2d' ) {
+      period = 60*30;
+    } else if( zoom == '1w' ) {
+      period = 60*60*2;
+    } else if( zoom == '2w' ) {
+      period = 60*60*4;
+    }
+  } else {
+    if( period == '5min' ) {
+      period = 60*5;
+    } else if( period == '15min' ) {
+      period = 60*15;
+    } else if( period == '30min' ) {
+      period = 60*30;
+    } else if( period == '2h' ) {
+      period = 60*60*2;
+    } else if( period == '4h' ) {
+      period = 60*60*4;
+    } else if( period == '1d' ) {
+      period = 60*60*24;
+    }
+  }
+  if( zoom == '6h' ) {
+    period = Math.min(Math.max(period, 60*5), 60*15);
+  } else if( zoom == '1d' ) {
+    period = Math.min(Math.max(period, 60*5), 60*30);
+  } else if( zoom == '2d' ) {
+    period = Math.min(Math.max(period, 60*5), 60*60*2);
+  } else if( zoom == '1w' ) {
+    period = Math.min(Math.max(period, 60*5*2), 60*60*4);
+  } else if( zoom == '2w' ) {
+    period = Math.min(Math.max(period, 60*5), 60*60*4);
+  }
+
+  var Data = httpGet('https://poloniex.com/public?command=returnChartData&currencyPair='+pair+'&period='+period+'&start='+start+'&end='+end);
   Data = Data.replace(/{/g, '[').replace(/}/g, ']');
   Data = Data.replace(/"date":/g, '').replace(/"high":/g, '').replace(/"low":/g, '').replace(/"open":/g, '').replace(/"close":/g, '').replace(/"volume":/g, '').replace(/"quoteVolume":/g, '').replace(/"weightedAverage":/g, '');
   
@@ -307,4 +393,39 @@ function httpGet(theUrl) {
   xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
   xmlHttp.send( null );
   return xmlHttp.responseText;
+}
+
+function getUrlParameter(sParam) {
+  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split(new RegExp('[\?&]')),
+      sParameterName,
+      i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0].toLowerCase() === sParam.toLowerCase()) {
+      return sParameterName[1] === undefined ? true : sParameterName[1];
+    }
+  }
+
+  return false;
+};
+
+function valBetweenAltMin(val, min, max) {
+  return (val > min) ? ((val < max) ? val : max) : min;
+}
+
+function addOrUpdateUrlParam(name, value) {
+  var href = window.location.href;
+  var regex = new RegExp("[&\\?]" + name + "=");
+  if(regex.test(href)) {
+    regex = new RegExp("([&\\?])" + name + "=*(.+)(\\&)?");
+    window.location.href = href.replace(regex, "$1" + name + "=" + value);
+  } else {
+    if(href.indexOf("?") > -1)
+      window.location.href = href + "&" + name + "=" + value;
+    else
+      window.location.href = href + "?" + name + "=" + value;
+  }
 }
