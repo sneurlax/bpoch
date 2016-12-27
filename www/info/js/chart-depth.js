@@ -1,17 +1,17 @@
 var data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=100'));
-var bids = mapToStructure(data['bids']);
 var asks = mapToStructure(data['asks']);
+var bids = mapToStructure(data['bids']);
 
 var cum = 0;
-for(var len = bids.length, i = len-1; i > -1; i--) {
-  cum += bids[i].amount;
-  bids[i].amount = cum;
-}
-
-cum = 0;
 for(var i = 0, len = asks.length; i < len; i++) {
   cum += asks[i].amount;
   asks[i].amount = cum;
+}
+
+cum = 0;
+for(var len = bids.length, i = len-1; i > -1; i--) {
+  cum += bids[i].amount;
+  bids[i].amount = cum;
 }
 
 data = bids.reverse().concat(asks);
