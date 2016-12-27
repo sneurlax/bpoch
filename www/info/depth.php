@@ -13,7 +13,7 @@
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <link href="/css/navmenu.css" rel="stylesheet">
     <link href="/css/theme.css" rel="stylesheet">
-    <link href="/css/chart.css" rel="stylesheet">
+    <link href="/css/charts.css" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,700i" rel="stylesheet">
 
@@ -23,72 +23,6 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-<style>
-
-.axis--x path {
-  display: none;
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.bids {
-  stroke: green;
-}
-
-.asks {
-  stroke: red;
-}
-
-.circle {
-    fill: none;
-    stroke: steelblue;
-    stroke-width: 2px;
-}
-
-.area {
-    fill: steelblue;
-    stroke: none;
-    opacity: 0.1;
-}
-
-.zeroline {
-    fill: none;
-    stroke: red;
-    stroke-width: 0.5px;
-    stroke-dasharray: 5 5;
-}
-
-.zerolinetext {
-    fill: red;
-}
-
-.overlay {
-    fill: none;
-    stroke: none;
-    pointer-events: all;
-}
-
-.focusLine {
-    fill: none;
-    stroke: #ddd;
-    stroke-width: 0.5px;
-}
-
-.focusCircle {
-    fill: none;
-    stroke: #aaa;
-    stroke-width: 1px;
-}
-
-.crosshairBackground {
-  fill: #333;
-}
-
-</style>
   </head>
   <body>
 
@@ -133,7 +67,7 @@
     ?>
 
     <div class="wrapper">
-      <svg width="960" height="500"></svg>
+      <svg id="depthChart" width="960" height="180"></svg>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
