@@ -24,22 +24,15 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
-.chart {
 
+.axis--x path {
+  display: none;
 }
 
-.main text {
-    font: 10px sans-serif;  
-}
-
-.axis line, .axis path {
-    shape-rendering: crispEdges;
-    stroke: black;
-    fill: none;
-}
-
-circle {
-    fill: steelblue;
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
 }
 
 </style>

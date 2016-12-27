@@ -53,16 +53,12 @@ techanSite.depthchart = (function(d3, techan) {
       .attr("y", 6)
       .attr("dy", "0.71em")
       .style("text-anchor", "end")
-      .text("Volume [BTC]"); 
-    
-  g.selectAll("scatter-dots")
-    .data(techanSite.data.array)
-    .enter().append("svg:circle")
-        .attr("cx", function (d,i) { return x(d.price); } )
-        .attr("cy", function (d) { return y(d.amount); } )
-        .attr("r", 8);
+      .text("Volume [BTC]");
 
-  
+  g.append("path")
+      .datum(techanSite.data.array)
+      .attr("class", "line")
+      .attr("d", line);
 
   function mapToStructure(data) {
     return data.map(function(d) {
