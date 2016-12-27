@@ -154,15 +154,23 @@ techanSite.bigchart = (function(d3, techan) {
       ohlc: { height: null },
       indicator: { height: null, padding: null, top: null, bottom: null }
     };
+    dim.plot = {
+        width: dim.width - dim.margin.left - dim.margin.right,
+        height: dim.height - dim.margin.top - dim.margin.bottom
+    };
+    dim.indicator.top = dim.ohlc.height+dim.indicator.padding;
+    dim.indicator.bottom = dim.indicator.top+dim.indicator.height+dim.indicator.padding;
 
     var data = stock.ohlc,
         x = techan.scale.financetime()
-            .range([0, dim.width]),
+            .range([0, dim.plot.width]),
         y = d3.scaleLinear()
-            .range([dim.height, 0]),
+            .range([dim.ohlc.height, 0]),
         yPercent = y.copy(),
-        indicatorTop = d3.scaleLinear(),
-        yVolume = d3.scaleLinear(),
+        indicatorTop = d3.scaleLinear()
+                      .range([dim.indicator.top, dim.indicator.bottom]),
+        yVolume = d3.scaleLinear()
+                  .range([y(0), y(0.2)]),
         candlestick = techan.plot.candlestick().xScale(x).yScale(y),
         sma0 = techan.plot.sma().xScale(x).yScale(y),
         sma1 = techan.plot.sma().xScale(x).yScale(y),
@@ -170,7 +178,7 @@ techanSite.bigchart = (function(d3, techan) {
         volume = techan.plot.volume().accessor(candlestick.accessor()).xScale(x).yScale(yVolume),
         xAxis = d3.axisBottom(x),
         xAxisTop = d3.axisTop(x),
-        timeAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.timeFormat('%Y-%m-%d')).width(65),
+        timeAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.timeFormat('%Y-%m-%d')).width(65).translate([0, dim.plot.height]),
         timeAnnotationTop = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(d3.timeFormat('%Y-%m-%d')).width(65),
         yAxis = d3.axisRight(y),
         percentAxis = d3.axisLeft(yPercent).tickFormat(d3.format('+.1%')),
@@ -178,29 +186,33 @@ techanSite.bigchart = (function(d3, techan) {
         volumeAxis = d3.axisLeft(yVolume).ticks(3).tickFormat(d3.format(',.3s')),
         volumeAnnotation = techan.plot.axisannotation().orient('right').axis(volumeAxis).width(35),
         zoom = d3.zoom()
-              .on("zoom", zoomed),
-        zoomableInit,
-        accessor = candlestick.accessor();
+               .on("zoom", zoomed),
+        yInit, yPercentInit, zoomableInit;
 
     if(stock.name == 'Bitcoin [BTC]') {
-      var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.2f')),
-          closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.2f'));
+      var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.2f')).translate([x(1), 0]),
+          closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.2f')).translate([x(1), 0]);
     } else {
-      var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.8f')),
-          closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.8f'));
+      var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.8f')).translate([x(1), 0]),
+          closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.8f')).translate([x(1), 0]);
     }
 
     var ohlcCrosshair = techan.plot.crosshair().xScale(x).yScale(y).xAnnotation([timeAnnotation, timeAnnotationTop]).yAnnotation([ohlcAnnotation, percentAnnotation, volumeAnnotation]);
 
     function bigchart(selection) {
-      var svg = selection.append("svg"),
-          defs = svg.append("defs");
+      var svg = selection.append("svg")
+                .attr("width", dim.width)
+                .attr("height", dim.height),
+          defs = svg.append("defs"),
+          yInit, yPercentInit, zoomableInit;
 
       defs.append("clipPath")
           .attr("id", "ohlcClip")
         .append("rect")
           .attr("x", 0)
-          .attr("y", 0);
+          .attr("y", 0)
+          .attr("width", dim.plot.width)
+          .attr("height", dim.ohlc.height);
 
       defs.append("clipPath")
           .attr("id", "volumeClip")
@@ -268,8 +280,10 @@ techanSite.bigchart = (function(d3, techan) {
       yPercent.domain(techan.scale.plot.percent(y, accessor(data[indicatorPreRoll])).domain());
       yVolume.domain(techan.scale.plot.volume(postRollData).domain());
 
-      x.zoomable().domain([indicatorPreRoll, data.length]); // Zoom in a little to hide indicator preroll
-      resize(selection);
+      // Stash for zooming
+      zoomableInit = x.zoomable().domain([indicatorPreRoll, data.length]).copy(); // Zoom in a little to hide indicator preroll
+      yInit = y.copy();
+      yPercentInit = yPercent.copy();
 
       svg.select("g.candlestick").datum(data).call(candlestick);
       svg.select("g.closeValue.annotation").datum([data[data.length-1]]).call(closeAnnotation);
@@ -288,10 +302,6 @@ techanSite.bigchart = (function(d3, techan) {
         .text(stock.name);
 
       selection.call(draw);
-
-      // Associate the zoom with the scale after a domain has been applied
-      // Stash initial settings to store as baseline for zooming
-      zoomableInit = x.zoomable().clamp(false).copy();
     }
 
     bigchart.resize = function(selection) {
@@ -316,11 +326,9 @@ techanSite.bigchart = (function(d3, techan) {
 
       indicatorTop.range([dim.indicator.top, dim.indicator.bottom]);
       x.range(xRange);
-      x.domain(data.map(accessor.d));
       xAxis.ticks(xTicks);
       xAxisTop.ticks(xTicks);
       y.range(yRange);
-      y.domain(techan.scale.plot.ohlc(data, accessor).domain());
       yAxis.ticks(ohlcVerticalTicks);
       yPercent.range(y.range());
       percentAxis.ticks(ohlcVerticalTicks);
@@ -366,6 +374,20 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("transform", "translate(" + xRange[0] + ",0)");
     }
 
+    function reset() {
+        zoom.scale(1);
+        zoom.translate([0,0]);
+        draw();
+    }
+
+    function zoomed() {
+      x.zoomable().domain(d3.event.transform.rescaleX(zoomableInit).domain());
+      y.domain(d3.event.transform.rescaleY(yInit).domain());
+      yPercent.domain(d3.event.transform.rescaleY(yPercentInit).domain());
+
+      draw();
+    }
+
     function draw(selection) {
       var svg = selection.select("svg");
       svg.select("g.x.axis.bottom").call(xAxis);
@@ -379,18 +401,6 @@ techanSite.bigchart = (function(d3, techan) {
       svg.select("g.closeValue.annotation").call(closeAnnotation.refresh);
       svg.select("g.volume").call(volume.refresh);
       svg.select("g.crosshair.ohlc").call(ohlcCrosshair.refresh);
-    }
-
-    function zoomed() {
-      var rescaledY = d3.event.transform.rescaleY(y);
-      yAxis.scale(rescaledY);
-      candlestick.yScale(rescaledY);
-
-      // Emulates D3 behaviour, required for financetime due to secondary zoomable scale
-      x.zoomable().domain(d3.event.transform.rescaleX(zoomableInit).domain());
-
-      svg.select("g.candlestick").datum(data);
-      draw();
     }
 
     return bigchart;
