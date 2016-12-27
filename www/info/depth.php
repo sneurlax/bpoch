@@ -67,12 +67,22 @@
     ?>
 
     <div class="wrapper">
+      <div id="bigChart"></div>
       <svg id="depthChart" width="960" height="180"></svg>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/js/techan.js"></script>
+    <script src="/js/chart-price.js"></script>
+    <script>
+      (function(window, d3, techanSite) {
+        d3.select('div#bigChart').call(techanSite.bigchart);
+        window.onresize = function() {
+          d3.select('div#bigChart').call(techanSite.bigchart.resize);
+        };
+      })(window, d3, techanSite);
+    </script>
     <script src="/js/chart-depth.js"></script>
     
     <script type="text/javascript">

@@ -22,13 +22,15 @@ for(var i = 0, len = bids.length; i < len; i++) {
 bids.push({price: bids[bids.length-1].price, amount: 0, sumprice: 0});
 bids.unshift({price: bids[0].price, amount: 0});
 
-data = bids.reverse().concat(asks);
+bids = bids.reverse();
+
+data = bids.concat(asks);
 
 var margin = {top: 30, right: 20, bottom: 30, left: 50},
   width = 600 - margin.left - margin.right,
   height = 270 - margin.top - margin.bottom;
 
-var svg = d3.select("svg")
+var svg = d3.select("#depthChart")
          .attr("preserveAspectRatio", "xMinYMin meet")
          .attr("viewBox", "0 0 960 180"),
   margin = {top: 20, right: 20, bottom: 30, left: 50},
@@ -78,7 +80,7 @@ g.append("g")
 
 g.append("g")
   .attr("class", "axis axis--y")
-  .call(d3.axisLeft(y))
+  .call(d3.axisLeft(y).ticks(10))
   .append("text")
   .attr("fill", "#000")
   .attr("transform", "rotate(-90)")
@@ -100,17 +102,17 @@ focus.append('line')
 focus.append('rect')
   .attr('id', 'crosshairBackgroundRight')
   .attr('class', 'crosshairBackground')
-  .attr('height', 16);
+  .attr('height', 12);
 focus.append('rect')
   .attr('id', 'crosshairBackgroundTop')
   .attr('class', 'crosshairBackground')
-  .attr('height', 16)
-  .attr('y', -8);
+  .attr('height', 12)
+  .attr('y', -4);
 focus.append('rect')
   .attr('id', 'crosshairBackgroundBottom')
   .attr('class', 'crosshairBackground')
-  .attr('height', 16)
-  .attr('y', height-16);
+  .attr('height', 12)
+  .attr('y', height-12);
 
 focus.append('text')
   .attr('id', 'volumeTextRight')
@@ -153,7 +155,7 @@ g.append('rect')
     var bbox = svg.getElementById("volumeTextRight").getBBox();;
     focus.select('#volumeTextRight')
       .attr('x', width-bbox.width+16)
-      .attr('y', y+4)
+      .attr('y', y+1)
       .text('Depth: '+d3.format(',.8f')(d.amount)+' BTC');
     var bbox = svg.getElementById("priceTextTop").getBBox();
     focus.select('#priceTextTop')
