@@ -1,4 +1,26 @@
-var data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=200'));
+var url = window.location.pathname;
+var coin = url.substr(1, 3);
+
+if( coin == 'xmr' ) {
+  var pair = 'BTC_XMR';
+} else if( coin == 'sdc' ) {
+  var pair = 'BTC_SDC';
+} else if( coin == 'xcp' ) {
+  var pair = 'BTC_XCP';
+} else if( coin == 'eth' ) {
+  var pair = 'BTC_ETH';
+} else if( coin == 'etc' ) {
+  var pair = 'BTC_ETC';
+} else {
+  var pair = 'USDT_BTC';
+}
+
+var depth = getUrlParameter('depth');
+if( !depth ) {
+  depth = 100;
+}
+
+var data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair='+pair+'&depth='+depth));
 var asks = mapToStructure(data['asks']);
 var bids = mapToStructure(data['bids']);
 
@@ -199,3 +221,20 @@ function httpGet(theUrl) {
   xmlHttp.send( null );
   return xmlHttp.responseText;
 }
+
+function getUrlParameter(sParam) {
+  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split(new RegExp('[\?&]')),
+      sParameterName,
+      i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0].toLowerCase() === sParam.toLowerCase()) {
+      return sParameterName[1] === undefined ? true : sParameterName[1];
+    }
+  }
+
+  return false;
+};
