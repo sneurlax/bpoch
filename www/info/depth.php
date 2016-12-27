@@ -43,6 +43,47 @@
   stroke: red;
 }
 
+.circle {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+.area {
+    fill: steelblue;
+    stroke: none;
+    opacity: 0.1;
+}
+
+.zeroline {
+    fill: none;
+    stroke: red;
+    stroke-width: 0.5px;
+    stroke-dasharray: 5 5;
+}
+
+.zerolinetext {
+    fill: red;
+}
+
+.overlay {
+    fill: none;
+    stroke: none;
+    pointer-events: all;
+}
+
+.focusLine {
+    fill: none;
+    stroke: #ddd;
+    stroke-width: 0.5px;
+}
+
+.focusCircle {
+    fill: none;
+    stroke: #aaa;
+    stroke-width: 1px;
+}
+
 </style>
   </head>
   <body>
