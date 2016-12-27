@@ -20,11 +20,11 @@ techanSite.bigchart = (function(d3, techan) {
   } else if( coin == 'sdc' ) {
     var pair = 'BTC_SDC';
   } else if( coin == 'xcp' ) {
-    var pair = 'BTC_SDC';
+    var pair = 'BTC_XCP';
   } else if( coin == 'eth' ) {
     var pair = 'BTC_ETH';
   } else if( coin == 'etc' ) {
-    var pair = 'BTC_ETH';
+    var pair = 'BTC_ETC';
   } else {
     var pair = 'USDT_BTC';
   }
