@@ -45,7 +45,6 @@
       
       <ul>
         <li><a href="/apidocs">API</a></li>
-        <li><a href="/charts">Charts</a></li>
       </ul>
     </header>
 
