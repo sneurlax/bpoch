@@ -132,3 +132,21 @@ header a:hover {
   margin: -1em 0 2em 9em;
   width: 100%;
 }
+
+.card a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.card a:hover {
+  color: #afa;
+  text-decoration: none;
+}
+
+.card .glyphicon {
+  font-size: 0.75em;
+}
+
+.card .btn-secondary {
+  background: #000;
+}

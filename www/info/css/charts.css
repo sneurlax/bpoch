@@ -8,6 +8,7 @@
   width: 100%;
   padding-right: 80px;
   height: auto;
+  margin-bottom: -50px !important;
 }
 
 #depthChart text {

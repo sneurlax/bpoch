@@ -67,8 +67,64 @@
     ?>
 
     <div class="wrapper">
-      <div id="bigChart"></div>
-      <svg id="depthChart" width="960" height="180"></svg>
+
+
+<div role="tablist" aria-multiselectable="true">
+  <div class="card">
+    <div class="card-header" role="tab" id="headingOne">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Market charts <span class="glyphicon glyphicon-chevron-down"></span>
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="card-block">
+        <div id="bigChart"></div>
+        <div class="container" id="toolbar">
+          <div class="row flex-items-xs-left">
+            <div class="col-xs-4">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Zoom">
+                  <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Zoom:</button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6h');">6h</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1d');">1d</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '2d');">2d</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1w');">1w</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '2w');">2w</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1m');">1m</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '3m');">3m</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6m');">6m</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', 'all');">all</a></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-4">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Candlesticks">
+                  <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Candlesticks:</button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '5min');">5min</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '15min');">15min</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '30min');">30min</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '2h');">2hr</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '4h');">4hr</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '1d');">1d</a></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <svg id="depthChart" width="960" height="180"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      
+      
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -113,7 +169,7 @@
     </script>
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-    <!-- <script src="/js/bootstrap.min.js"></script> -->
+    <script src="/js/bootstrap.min.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
   </body>
 </html>
