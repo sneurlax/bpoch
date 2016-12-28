@@ -102,7 +102,10 @@
           </div>
         </div>
       </div>
+      
+      <svg id="depthChart" width="960" height="180"></svg>
 
+      <br><br>
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -125,6 +128,7 @@
         };
       })(window, d3, techanSite);
     </script>
+    <script src="/js/chart-depth.js"></script>
     
     <script type="text/javascript">
       var bpoch = $bpoch;
