@@ -68,10 +68,10 @@
 
     <div class="wrapper">
       <div class="container" id="toolbar">
-        <div class="row flex-items-xs-left">
-          <div class="col-xs-4">
+        <div class="row flex-items-xs-left toolbar-group">
+          <div class="col-xs-6">
             <div class="btn-toolbar" role="toolbar">
-              <div class="btn-group btn-group-sm" role="group" aria-label="Zoom">
+              <div class="btn-group btn-group-sm zoom-group" role="group" aria-label="Zoom">
                 <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Zoom:</button>
                 <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6h');">6h</a></button>
                 <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1d');">1d</a></button>
@@ -86,8 +86,8 @@
             </div>
           </div>
           <div class="col-xs-6">
-            <div class="btn-toolbar" role="toolbar">
-              <div class="btn-group btn-group-sm" role="group" aria-label="Candlesticks">
+            <div class="btn-toolbar float-xs-right" role="toolbar">
+              <div class="btn-group btn-group-sm candlesticks-group" role="group" aria-label="Candlesticks">
                 <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Candlesticks:</button>
                 <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '5min');">5min</a></button>
                 <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '15min');">15min</a></button>
