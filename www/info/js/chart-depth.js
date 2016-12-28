@@ -112,7 +112,7 @@ techanSite.depthchart = (function(d3, techan) {
     } else {
       var priceAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(function(d) { return d3.format(",.8f")(d)+' BTC'; }).width(82),
           sumAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(function(d) { return 'Sum: '+d3.format(",.8f")(Math.abs(d))+' BTC'; }).width(120),
-          depthAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(function(d) { return d3.format(",.8f")(d)+' '+coin.toUpperCase(); }).width(102);
+          depthAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(function(d) { return d3.format(",.8f")(d)+' '+coin.toUpperCase(); }).width(114);
     }
     
     var depthCrosshair = techan.plot.crosshair().xScale(x).yScale(y).xAnnotation([sumAnnotation, priceAnnotation]).yAnnotation([depthAnnotation]);
@@ -157,15 +157,13 @@ techanSite.depthchart = (function(d3, techan) {
 
       svg.append("path")
         .datum(bids)
-        .attr("class", "line")
-        .attr("class", "bids")
+        .attr("class", "line bids")
         .attr("id", "bids")
         .attr("d", line);
 
       svg.append("path")
         .datum(asks)
-        .attr("class", "line")
-        .attr("class", "asks")
+        .attr("class", "line asks")
         .attr("id", "asks")
         .attr("d", line);
 
@@ -197,7 +195,7 @@ techanSite.depthchart = (function(d3, techan) {
       var xRange = [0, dim.plot.width],
           yRange = [dim.plot.height, 0],
           yTicks = Math.min(30, Math.round(dim.height/15)),
-          xTicks = Math.min(20, Math.round(dim.width/100));
+          xTicks = Math.min(20, Math.round(dim.width/50));
 
       x.range(xRange);
       xAxis.ticks(xTicks);
