@@ -13,12 +13,11 @@ if( coin == 'xmr' ) {
   var pair = 'BTC_ETC';
 } else {
   var pair = 'USDT_BTC';
-  coin = 'BTC';
 }
 
 var depth = getUrlParameter('depth');
 if( !depth ) {
-  depth = 200;
+  depth = 100;
 }
 
 var data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair='+pair+'&depth='+depth));
@@ -49,8 +48,6 @@ bids = bids.reverse();
 
 data = bids.concat(asks);
 
-console.log(JSON.stringify(bids));
-
 var margin = {top: 30, right: 20, bottom: 30, left: 50},
   width = 600 - margin.left - margin.right,
   height = 270 - margin.top - margin.bottom;
@@ -63,7 +60,7 @@ var svg = d3.select("#depthChart")
   height = +svg.attr("height") - margin.top - margin.bottom,
   g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
   x = d3.scaleLinear()
-      .range([0, width]),
+      .rangeRound([0, width]),
   y = d3.scaleLinear()
       .rangeRound([height, 0]);
 
@@ -113,7 +110,7 @@ if(pair == 'USDT_BTC') {
     .attr("x", 70)
     .attr("y", -2)
     .style("text-anchor", "end")
-    .text("Price [BTC]")
+    .text("Price [USDT]")
     .attr("class", "shadow");
 }
 
@@ -126,7 +123,7 @@ g.append("g")
   .attr("y", 6)
   .attr("x", -height+74)
   .attr("dy", "0.71em")
-  .text("Volume ["+coin.toUpperCase()+"]")
+  .text("Volume [BTC]")
   .attr("class", "shadow");
 
 var focus = g.append("g").style("display", "none");
@@ -192,41 +189,20 @@ g.append('rect')
       .attr('x1', xScale(xDomain[0])).attr('y1', y)
       .attr('x2', xScale(xDomain[1])).attr('y2', y);
     var bbox = svg.getElementById("volumeTextRight").getBBox();;
-    if(pair == 'USDT_BTC') {
-      focus.select('#volumeTextRight')
-        .attr('x', width-bbox.width+16)
-        .attr('y', y+1)
-        .text('Depth: '+d3.format(',.8f')(d.amount)+' BTC');
-    } else {
-      focus.select('#volumeTextRight')
-        .attr('x', width-bbox.width+16)
-        .attr('y', y+1)
-        .text('Depth: '+d3.format(',.8f')(d.amount)+' '+coin.toUpperCase());
-    }
+    focus.select('#volumeTextRight')
+      .attr('x', width-bbox.width+16)
+      .attr('y', y+1)
+      .text('Depth: '+d3.format(',.8f')(d.amount)+' BTC');
     var bbox = svg.getElementById("priceTextTop").getBBox();
-    if(pair == 'USDT_BTC') {
-      focus.select('#priceTextTop')
-        .attr('x', x - (bbox.width-8)/2)
-        .attr('y', 4)
-        .text('Price: $'+d3.format(',.2f')(d.price));
-    } else {
-      focus.select('#priceTextTop')
-        .attr('x', x - (bbox.width-8)/2)
-        .attr('y', 4)
-        .text('Price: '+d3.format(',.8f')(d.price)+' BTC');
-    }
+    focus.select('#priceTextTop')
+      .attr('x', x - (bbox.width-8)/2)
+      .attr('y', 4)
+      .text('Price: $'+d3.format(',.2f')(d.price));
     var bbox = svg.getElementById("priceTextBottom").getBBox();
-    if(pair == 'USDT_BTC') {
-      focus.select('#priceTextBottom')
-        .attr('x', x - (bbox.width-8)/2)
-        .attr('y', height-4)
-        .text('Sum: $'+d3.format(',.2f')(d.sumprice));
-    } else {
-      focus.select('#priceTextBottom')
-        .attr('x', x - (bbox.width-8)/2)
-        .attr('y', height-4)
-        .text('Sum: '+d3.format(',.2f')(d.sumprice)+' BTC');
-    }
+    focus.select('#priceTextBottom')
+      .attr('x', x - (bbox.width-8)/2)
+      .attr('y', height-4)
+      .text('Sum: $'+d3.format(',.2f')(d.sumprice));
 
     var bbox = svg.getElementById("volumeTextRight").getBBox();
     focus.select('#crosshairBackgroundRight')
