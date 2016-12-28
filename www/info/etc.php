@@ -67,8 +67,6 @@
     ?>
 
     <div class="wrapper">
-      <div id="bigChart"></div>
-
       <div class="container" id="toolbar">
         <div class="row flex-items-xs-left">
           <div class="col-xs-4">
@@ -103,7 +101,8 @@
         </div>
       </div>
       
-      <svg id="depthChart" width="960" height="180"></svg>
+      <div id="bigChart"></div>
+      <div id="depthChart"></div>
 
       <br><br>
       <div class="container">
@@ -120,15 +119,17 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/js/techan.js"></script>
     <script src="/js/chart-price.js"></script>
+    <script src="/js/chart-depth.js"></script>
     <script>
       (function(window, d3, techanSite) {
-        d3.select('div#bigChart').call(techanSite.bigchart);
+        d3.select('#bigChart').call(techanSite.bigchart);
+        d3.select('#depthChart').call(techanSite.depthchart);
         window.onresize = function() {
-          d3.select('div#bigChart').call(techanSite.bigchart.resize);
+          d3.select('#bigChart').call(techanSite.bigchart.resize);
+          d3.select('#depthChart').call(techanSite.depthchart.resize);
         };
       })(window, d3, techanSite);
     </script>
-    <script src="/js/chart-depth.js"></script>
     
     <script type="text/javascript">
       var bpoch = $bpoch;

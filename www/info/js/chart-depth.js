@@ -32,7 +32,19 @@ techanSite.depthchart = (function(d3, techan) {
 
   var depth = getUrlParameter('depth');
   if( !depth ) {
-    depth = 100;
+    if( coin == 'xmr' ) {
+      depth = 2000;
+    } else if( coin == 'sdc' ) {
+      depth = 300;
+    } else if( coin == 'xcp' ) {
+      depth = 200;
+    } else if( coin == 'eth' ) {
+      depth = 1000;
+    } else if( coin == 'etc' ) {
+      depth = 500;
+    } else {
+      depth = 100;
+    }
   }
 
   var Data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair='+pair+'&depth='+depth));
@@ -87,21 +99,20 @@ techanSite.depthchart = (function(d3, techan) {
         x = d3.scaleLinear(),
         y = d3.scaleLinear(),
         xPrice = d3.extent(data, function(d) { return d.price; }),
+        xSum = [-data[data.length-2].sumprice, data[1].sumprice],
         yVolume = d3.extent(data, function(d) { return d.amount; }),
-        xAxis = d3.axisBottom(x).scale(d3.scaleLinear().domain(xPrice).range([0, d3.max(d3.values(data)).price])),
-        xAxisTop = d3.axisTop(x),
+        xAxis = d3.axisBottom(x).scale(d3.scaleLinear().domain(xPrice).range([0, dim.width-dim.margin.left-dim.margin.right])),
+        xAxisTop = d3.axisTop(x).scale(d3.scaleLinear().domain(xSum.reverse()).range([0, dim.width-dim.margin.left-dim.margin.right])),
         yAxis = d3.axisLeft(y).scale(d3.scaleLinear().domain(yVolume.reverse()).range([0, 100]));
 
-    console.log(d3.max(d3.values(data)).price);
-
     if(market.name == 'Bitcoin [BTC]') {
-      var priceAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.format(',.2f')).width(65),
-          sumAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(d3.format(',.2f')).width(65),
-          depthAnnotation = techan.plot.axisannotation().orient('left').axis(yAxis).format(d3.format(',.2f'));
+      var priceAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.format('$,.2f')).width((xPrice[1].length+1)*3+8),
+          sumAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(function(d) { return 'Sum: '+d3.format("$,.2f")(Math.abs(d)); }).width(80),
+          depthAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(function(d) { return d3.format(",.8f")(d)+' '+coin.toUpperCase(); }).width(90);
     } else {
-      var sumAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.format(',.8f')).width(65),
-          priceAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(d3.format(',.8f')).width(65),
-          depthAnnotation = techan.plot.axisannotation().orient('left').axis(yAxis).format(d3.format(',.8f'));
+      var priceAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(function(d) { return d3.format(",.8f")(d)+' BTC'; }).width(82),
+          sumAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(function(d) { return 'Sum: '+d3.format(",.8f")(Math.abs(d))+' BTC'; }).width(120),
+          depthAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(function(d) { return d3.format(",.8f")(d)+' '+coin.toUpperCase(); }).width(102);
     }
     
     var depthCrosshair = techan.plot.crosshair().xScale(x).yScale(y).xAnnotation([sumAnnotation, priceAnnotation]).yAnnotation([depthAnnotation]);
@@ -118,9 +129,6 @@ techanSite.depthchart = (function(d3, techan) {
           line = d3.line()
                 .x(function(d) { return x(d.price); })
                 .y(function(d) { return y(d.amount); });
-
-      console.log('height: '+height);
-      console.log('dim.height: '+dim.height);
 
       defs.append("clipPath")
           .attr("id", "depthClip")
@@ -169,8 +177,7 @@ techanSite.depthchart = (function(d3, techan) {
       svg.append('g')
         .attr("class", "crosshair depth");
 
-      console.log([data[data.length-1]]);
-
+      svg.select("g.sum.annotation").datum(data).call(sumAnnotation);
       svg.select("g.price.annotation").datum(data).call(priceAnnotation);
       svg.select("g.crosshair.depth").call(depthCrosshair);
 
@@ -182,17 +189,15 @@ techanSite.depthchart = (function(d3, techan) {
     };
 
     function resize(selection) {
-      dim.width = $("#depthChart").width();
-      dim.height = $("#depthChart").height();
+      dim.width = selection.node().clientWidth;
+      dim.height = selection.node().clientHeight;
       dim.plot.width = dim.width - dim.margin.left - dim.margin.right;
       dim.plot.height = dim.height - dim.margin.top - dim.margin.bottom;
 
-      console.log('dim.plot.height: '+dim.plot.height);
-
       var xRange = [0, dim.plot.width],
           yRange = [dim.plot.height, 0],
-          yTicks = Math.min(10, Math.round(dim.height/70)),
-          xTicks = Math.min(10, Math.round(dim.width/130));
+          yTicks = Math.min(30, Math.round(dim.height/15)),
+          xTicks = Math.min(20, Math.round(dim.width/100));
 
       x.range(xRange);
       xAxis.ticks(xTicks);
@@ -210,7 +215,7 @@ techanSite.depthchart = (function(d3, techan) {
         .attr("height", dim.plot.height);
 
       selection.select("g.x.axis")
-        .attr("transform", "translate(0," + dim.plot.height + ")");
+        .attr("transform", "translate(0, " + dim.plot.height + ")");
 
       selection.selectAll("defs .plotClip > rect")
         .attr("width", dim.plot.width)

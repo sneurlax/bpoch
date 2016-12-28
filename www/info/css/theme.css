@@ -133,20 +133,12 @@ header a:hover {
   width: 100%;
 }
 
-.card a {
-  color: #fff;
-  text-decoration: none;
+.toolbar-group {
+  margin-right: 100px;
 }
 
-.card a:hover {
-  color: #afa;
-  text-decoration: none;
+.zoom-group {
 }
 
-.card .glyphicon {
-  font-size: 0.75em;
-}
-
-.card .btn-secondary {
-  background: #000;
+.candlesticks-group {
 }
