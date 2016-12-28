@@ -99,10 +99,10 @@ techanSite.depthchart = (function(d3, techan) {
         x = d3.scaleLinear(),
         y = d3.scaleLinear(),
         xPrice = d3.extent(data, function(d) { return d.price; }),
-        xSum = [-data[data.length-2].sumprice, data[1].sumprice],
+        xSum = data.map(function(d) { return +d.sumprice; }),
         yVolume = d3.extent(data, function(d) { return d.amount; }),
         xAxis = d3.axisBottom(x).scale(d3.scaleLinear().domain(xPrice).range([0, dim.width-dim.margin.left-dim.margin.right])),
-        xAxisTop = d3.axisTop(x).scale(d3.scaleLinear().domain(xSum.reverse()).range([0, dim.width-dim.margin.left-dim.margin.right])),
+        xAxisTop = d3.axisTop(x).scale(d3.scaleLinear().domain(xSum).range([0, dim.width-dim.margin.left-dim.margin.right])),
         yAxis = d3.axisLeft(y).scale(d3.scaleLinear().domain(yVolume.reverse()).range([0, 100]));
 
     if(market.name == 'Bitcoin [BTC]') {
@@ -207,8 +207,7 @@ techanSite.depthchart = (function(d3, techan) {
       depthCrosshair.verticalWireRange([0, dim.plot.height]);
 
       selection.select("svg")
-        .attr("width", dim.width)
-        .attr("height", dim.height);
+        .attr("width", dim.width);
 
       selection.selectAll("defs #depthClip > rect")
         .attr("width", dim.plot.width)
@@ -224,14 +223,10 @@ techanSite.depthchart = (function(d3, techan) {
 
     function draw(selection) {
       var svg = selection.select("svg");
-      svg.select("g.x.axis").call(xAxis);
-      svg.select("g.y.axis").call(yAxis);
+      svg.select("g.x.axis.bottom").call(xAxis);
+      svg.select("g.x.axis.top").call(xAxisTop); // uneeded
+      svg.select("g.y.axis.left").call(yAxis);
 
-      /*
-      // We know the data does not change, a simple refresh that does not perform data joins will suffice.
-      svg.select("g.candlestick").call(candlestick.refresh);
-      svg.select("g.volume").call(volume.refresh);
-      */
       svg.select("g.price.annotation").call(priceAnnotation.refresh);
       svg.select("g.crosshair.depth").call(depthCrosshair.refresh);
     }
