@@ -82,16 +82,16 @@
               </h4>
             </div>
           </div>
-          <div class="col-xl-3">
-            <div class="card card-block">
-              <h3 class="card-title">Highest block:</h3>
-              <h4 class="display-4"><?php echo $bitcoininfo['blocks']; ?></h4>
-            </div>
-          </div>
           <div class="col-xl-2">
             <div class="card card-block">
               <h3 class="card-title">Era:</h3>
               <h4 class="display-4"><?php echo ordinal_suffix(block_era($bitcoininfo['blocks'])); ?></h4>
+            </div>
+          </div>
+          <div class="col-xl-3">
+            <div class="card card-block">
+              <h3 class="card-title">Height:</h3>
+              <h4 class="display-4"><?php echo $bitcoininfo['blocks']; ?></h4>
             </div>
           </div>
         </div>

@@ -78,18 +78,18 @@ header a:hover {
   min-height: 85px;
 }
 
-#age .chunk {
-  white-space: nowrap;
-}
-
-#age h4 {
+.card h4 {
   color: #fff;
   width: 100%;
   text-align: center;
 }
 
-#age h4 span {
+.card h4 span {
   position: relative;
+}
+
+#age .chunk {
+  white-space: nowrap;
 }
 
 #age #age-years:after, #age #age-months:after, #age #age-weeks:after, #age #age-days:after, #age #age-date:after, #age #age-hours:after, #age #age-minutes:after, #age #age-seconds:after {
