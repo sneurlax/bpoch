@@ -87,10 +87,12 @@ techanSite.depthchart = (function(d3, techan) {
         x = d3.scaleLinear(),
         y = d3.scaleLinear(),
         xPrice = d3.extent(data, function(d) { return d.price; }),
-        yVolume = y.copy(),
-        xAxis = d3.axisBottom(x),
+        yVolume = d3.extent(data, function(d) { return d.amount; }),
+        xAxis = d3.axisBottom(x).scale(d3.scaleLinear().domain(xPrice).range([0, d3.max(d3.values(data)).price])),
         xAxisTop = d3.axisTop(x),
-        yAxis = d3.axisLeft(y);
+        yAxis = d3.axisLeft(y).scale(d3.scaleLinear().domain(yVolume.reverse()).range([0, 100]));
+
+    console.log(d3.max(d3.values(data)).price);
 
     if(market.name == 'Bitcoin [BTC]') {
       var priceAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.format(',.2f')).width(65),
@@ -167,7 +169,9 @@ techanSite.depthchart = (function(d3, techan) {
       svg.append('g')
         .attr("class", "crosshair depth");
 
-      svg.select("g.price.annotation").datum([data[data.length-1]]).call(priceAnnotation);
+      console.log([data[data.length-1]]);
+
+      svg.select("g.price.annotation").datum(data).call(priceAnnotation);
       svg.select("g.crosshair.depth").call(depthCrosshair);
 
       selection.call(draw);
@@ -194,6 +198,7 @@ techanSite.depthchart = (function(d3, techan) {
       xAxis.ticks(xTicks);
       y.range(yRange);
       yAxis.ticks(yTicks);
+      priceAnnotation.translate([0, yRange[0]]);
       depthCrosshair.verticalWireRange([0, dim.plot.height]);
 
       selection.select("svg")
@@ -206,9 +211,6 @@ techanSite.depthchart = (function(d3, techan) {
 
       selection.select("g.x.axis")
         .attr("transform", "translate(0," + dim.plot.height + ")");
-
-      selection.select("g.y.axis")
-        .attr("transform", "translate(" + xRange[1] + ",0)");
 
       selection.selectAll("defs .plotClip > rect")
         .attr("width", dim.plot.width)
