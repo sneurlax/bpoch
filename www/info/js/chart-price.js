@@ -27,6 +27,7 @@ techanSite.bigchart = (function(d3, techan) {
     var pair = 'BTC_ETC';
   } else {
     var pair = 'USDT_BTC';
+    coin = 'btc';
   }
 
   var zoom = getUrlParameter('zoom');
@@ -145,26 +146,21 @@ techanSite.bigchart = (function(d3, techan) {
     techanSite.data.array = [techanSite.data.btc];
   }
 
-  function BigChart(stock) {
+  function BigChart(market) {
 
     var dim = {
       width: null, height: null,
       margin: { top: 25, right: 50, bottom: 25, left: 50 },
       plot: { width: null, height: null },
-      ohlc: { height: null },
-      indicator: { height: null, padding: null, top: null, bottom: null }
+      ohlc: { height: null }
     };
 
-    var data = stock.ohlc,
+    var data = market.ohlc,
         x = techan.scale.financetime(),
         y = d3.scaleLinear(),
         yPercent = y.copy(),
-        indicatorTop = d3.scaleLinear(),
         yVolume = d3.scaleLinear(),
         candlestick = techan.plot.candlestick().xScale(x).yScale(y),
-        sma0 = techan.plot.sma().xScale(x).yScale(y),
-        sma1 = techan.plot.sma().xScale(x).yScale(y),
-        ema2 = techan.plot.ema().xScale(x).yScale(y),
         volume = techan.plot.volume().accessor(candlestick.accessor()).xScale(x).yScale(yVolume),
         xAxis = d3.axisBottom(x),
         xAxisTop = d3.axisTop(x),
@@ -176,7 +172,7 @@ techanSite.bigchart = (function(d3, techan) {
         volumeAxis = d3.axisLeft(yVolume).ticks(3).tickFormat(d3.format(',.3s')),
         volumeAnnotation = techan.plot.axisannotation().orient('right').axis(volumeAxis).width(35);
 
-    if(stock.name == 'Bitcoin [BTC]') {
+    if(market.name == 'Bitcoin [BTC]') {
       var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.2f')),
           closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.2f'));
     } else {
@@ -201,14 +197,6 @@ techanSite.bigchart = (function(d3, techan) {
         .append("rect")
           .attr("x", 0)
           .attr("y", 0);
-
-      defs.selectAll(".indicatorClip").data([0, 1])
-        .enter()
-        .append("clipPath")
-          .attr("id", function(d, i) { return "indicatorClip-" + i; })
-          .attr("class", "indicatorClip")
-        .append("rect")
-          .attr("x", 0);
 
       svg.append('text')
           .attr("class", "version")
@@ -254,23 +242,18 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("class", "crosshair ohlc");
 
       var accessor = candlestick.accessor(),
-          indicatorPreRoll = stock.preroll,
-          postRollData = data.slice(indicatorPreRoll);  // Don't show where indicators don't have data
+          postRollData = data.slice(market.preroll);
 
       x.domain(techan.scale.plot.time(data).domain());
       y.domain(techan.scale.plot.ohlc(postRollData).domain());
-      yPercent.domain(techan.scale.plot.percent(y, accessor(data[indicatorPreRoll])).domain());
+      yPercent.domain(techan.scale.plot.percent(y, accessor(data[market.preroll])).domain());
       yVolume.domain(techan.scale.plot.volume(postRollData).domain());
 
-      x.zoomable().domain([indicatorPreRoll, data.length]); // Zoom in a little to hide indicator preroll
       resize(selection);
 
       svg.select("g.candlestick").datum(data).call(candlestick);
       svg.select("g.closeValue.annotation").datum([data[data.length-1]]).call(closeAnnotation);
       svg.select("g.volume").datum(data).call(volume);
-      svg.select("g.sma.ma-0").datum(techan.indicator.sma().period(10)(data)).call(sma0);
-      svg.select("g.sma.ma-1").datum(techan.indicator.sma().period(20)(data)).call(sma1);
-      svg.select("g.ema.ma-2").datum(techan.indicator.ema().period(50)(data)).call(ema2);
 
       svg.select("g.crosshair.ohlc").call(ohlcCrosshair);
 
@@ -279,7 +262,7 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("x", 5)
         .attr("y", 15)
         .attr("class", "shadow")
-        .text(stock.name);
+        .text(market.name);
 
       selection.call(draw);
     }
@@ -294,17 +277,12 @@ techanSite.bigchart = (function(d3, techan) {
       dim.plot.width = dim.width - dim.margin.left - dim.margin.right;
       dim.plot.height = dim.height - dim.margin.top - dim.margin.bottom;
       dim.ohlc.height = dim.plot.height * 0.85;
-      dim.indicator.height = dim.plot.height * 0.144444;
-      dim.indicator.padding = dim.plot.height * 0.01111111111;
-      dim.indicator.top = dim.ohlc.height + dim.indicator.padding;
-      dim.indicator.bottom = dim.indicator.top + dim.indicator.height + dim.indicator.padding;
 
       var xRange = [0, dim.plot.width],
           yRange = [dim.ohlc.height, 0],
           ohlcVerticalTicks = Math.min(10, Math.round(dim.height/70)),
           xTicks = Math.min(10, Math.round(dim.width/130));
 
-      indicatorTop.range([dim.indicator.top, dim.indicator.bottom]);
       x.range(xRange);
       xAxis.ticks(xTicks);
       xAxisTop.ticks(xTicks);
@@ -335,23 +313,11 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("width", dim.plot.width)
         .attr("height", dim.plot.height);
 
-      selection.selectAll("defs .indicatorClip > rect")
-        .attr("y", function (d, i) {
-          return indicatorTop(i);
-        })
-        .attr("width", dim.plot.width)
-        .attr("height", dim.indicator.height);
-
       selection.select("g.x.axis.bottom")
         .attr("transform", "translate(0," + dim.plot.height + ")");
 
       selection.select("g.ohlc g.y.axis")
         .attr("transform", "translate(" + xRange[1] + ",0)");
-
-      selection.selectAll("g.indicator g.axis.right")
-        .attr("transform", "translate(" + xRange[1] + ",0)");
-      selection.selectAll("g.indicator g.axis.left")
-        .attr("transform", "translate(" + xRange[0] + ",0)");
     }
 
     function draw(selection) {
@@ -372,7 +338,7 @@ techanSite.bigchart = (function(d3, techan) {
     return bigchart;
   }
 
-  return BigChart(techanSite.data.array[0]);
+  return BigChart(techanSite.data[coin]);
 
   function mapToStructure(data) {
     return data.map(function(d) {

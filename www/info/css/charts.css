@@ -1,14 +1,13 @@
-#bigChart, #depthChart {
+#bigChart {
   min-height: 25em;
 
   margin-right: 50px;
 }
 
 #depthChart {
-  width: 100%;
-  padding-right: 80px;
-  height: auto;
-  margin-bottom: -50px !important;
+  min-height: 5em;
+
+  margin-right: 50px;
 }
 
 #depthChart text {

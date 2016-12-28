@@ -1,234 +1,249 @@
-var url = window.location.pathname;
-var coin = url.substr(1, 3);
+var techanSite = techanSite || {};
 
-if( coin == 'xmr' ) {
-  var pair = 'BTC_XMR';
-} else if( coin == 'sdc' ) {
-  var pair = 'BTC_SDC';
-} else if( coin == 'xcp' ) {
-  var pair = 'BTC_XCP';
-} else if( coin == 'eth' ) {
-  var pair = 'BTC_ETH';
-} else if( coin == 'etc' ) {
-  var pair = 'BTC_ETC';
-} else {
-  var pair = 'USDT_BTC';
-  coin = 'btc';
-}
+techanSite.depthchart = (function(d3, techan) {
+  'use strict';
 
-var depth = getUrlParameter('depth');
-if( !depth ) {
-  depth = 100;
-}
-
-var data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair='+pair+'&depth='+depth));
-var asks = mapToStructure(data['asks']);
-var bids = mapToStructure(data['bids']);
-
-var cum = 0;
-for(var i = 0, len = asks.length; i < len; i++) {
-  cum += asks[i].amount;
-  asks[i].amount = cum;
-  asks[i].sumprice += asks[i].amount*asks[i].price;
-}
-asks.push({price: asks[asks.length-1].price, amount: 0, sumprice: 0});
-asks.unshift({price: asks[0].price, amount: 0, sumprice: 0});
-
-bids = bids.reverse();
-
-cum = 0;
-for(var i = 0, len = bids.length; i < len; i++) {
-  cum += bids[i].amount;
-  bids[i].amount = cum;
-  bids[i].sumprice += bids[i].amount*bids[i].price;
-}
-bids.push({price: bids[bids.length-1].price, amount: 0, sumprice: 0});
-bids.unshift({price: bids[0].price, amount: 0, sumprice: 0});
-
-bids = bids.reverse();
-
-data = bids.concat(asks);
-
-var margin = {top: 30, right: 20, bottom: 30, left: 50},
-  width = 600 - margin.left - margin.right,
-  height = 270 - margin.top - margin.bottom;
-
-var svg = d3.select("#depthChart")
-         .attr("preserveAspectRatio", "xMinYMin meet")
-         .attr("viewBox", "0 0 960 180"),
-  margin = {top: 20, right: 20, bottom: 30, left: 50},
-  width = +svg.attr("width") - margin.left - margin.right,
-  height = +svg.attr("height") - margin.top - margin.bottom,
-  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")"),
-  x = d3.scaleLinear()
-      .rangeRound([0, width]),
-  y = d3.scaleLinear()
-      .rangeRound([height, 0]);
-
-var line = d3.line()
-  .x(function(d) { return x(d.price); })
-  .y(function(d) { return y(d.amount); });
-
-x.domain(d3.extent(data, function(d) { return d.price; }));
-y.domain(d3.extent(data, function(d) { return d.amount; }));
-
-var xDomain = x.domain();
-var yDomain = y.domain();
-var xScale = d3.scaleLinear().range([0, width]).domain(x.domain());
-var yScale = d3.scaleLinear().range([height, 0]).domain(y.domain());
-
-g.append("path")
-  .datum(bids)
-  .attr("class", "line")
-  .attr("class", "bids")
-  .attr("d", line);
-
-g.append("path")
-  .datum(asks)
-  .attr("class", "line")
-  .attr("class", "asks")
-  .attr("d", line);
-
-if(pair == 'USDT_BTC') {
-  g.append("g")
-    .attr("class", "axis axis--x")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).ticks(20).tickFormat(d3.format(",.0f")))
-    .append("text")
-    .attr("fill", "#000")
-    .attr("x", 70)
-    .attr("y", -2)
-    .style("text-anchor", "end")
-    .text("Price [USDT]")
-    .attr("class", "shadow");
-} else {
-  g.append("g")
-    .attr("class", "axis axis--x")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).ticks(12).tickFormat(d3.format(",.8f")))
-    .append("text")
-    .attr("fill", "#000")
-    .attr("x", 70)
-    .attr("y", -2)
-    .style("text-anchor", "end")
-    .text("Price [USDT]")
-    .attr("class", "shadow");
-}
-
-g.append("g")
-  .attr("class", "axis axis--y")
-  .call(d3.axisLeft(y).ticks(10))
-  .append("text")
-  .attr("fill", "#000")
-  .attr("transform", "rotate(-90)")
-  .attr("y", 6)
-  .attr("x", -height+74)
-  .attr("dy", "0.71em")
-  .text("Volume ["+coin.toUpperCase()+"]")
-  .attr("class", "shadow");
-
-var focus = g.append("g").style("display", "none");
-  
-focus.append('line')
-  .attr('id', 'focusLineX')
-  .attr('class', 'focusLine');
-focus.append('line')
-  .attr('id', 'focusLineY')
-  .attr('class', 'focusLine');
-
-focus.append('rect')
-  .attr('id', 'crosshairBackgroundRight')
-  .attr('class', 'crosshairBackground')
-  .attr('height', 12);
-focus.append('rect')
-  .attr('id', 'crosshairBackgroundTop')
-  .attr('class', 'crosshairBackground')
-  .attr('height', 12)
-  .attr('y', -4);
-focus.append('rect')
-  .attr('id', 'crosshairBackgroundBottom')
-  .attr('class', 'crosshairBackground')
-  .attr('height', 12)
-  .attr('y', height-12);
-
-focus.append('text')
-  .attr('id', 'volumeTextRight')
-  .append("text");
-focus.append('text')
-  .attr('id', 'priceTextTop')
-  .append("text");
-focus.append('text')
-  .attr('id', 'priceTextBottom')
-  .append("text");
-
-var bisectPrice = d3.bisector(function(d) { return d.price; }).left;
-
-g.append('rect')
-  .attr('class', 'overlay')
-  .attr('width', width)
-  .attr('height', height)
-  .on('mouseover', function() { focus.style('display', null); })
-  .on('mouseout', function() { focus.style('display', 'none'); })
-  .on('mousemove', function() { 
-    var mouse = d3.mouse(this);
-    var mousePrice = xScale.invert(mouse[0]);
-    var i = bisectPrice(data, mousePrice);
-
-    var d0 = data[i];
-    var d1 = data[i + 1];
-    var d = mousePrice - d0.price > d1.price - mousePrice ? d1 : d0;
-
-    var x = xScale(d.price);
-    var y = yScale(d.amount);
-
-    var svg = document.getElementById("depthChart");
-
-    focus.select('#focusLineX')
-      .attr('x1', x).attr('y1', yScale(yDomain[0]))
-      .attr('x2', x).attr('y2', yScale(yDomain[1]));
-    focus.select('#focusLineY')
-      .attr('x1', xScale(xDomain[0])).attr('y1', y)
-      .attr('x2', xScale(xDomain[1])).attr('y2', y);
-    var bbox = svg.getElementById("volumeTextRight").getBBox();;
-    focus.select('#volumeTextRight')
-      .attr('x', width-bbox.width+16)
-      .attr('y', y+1)
-      .text('Depth: '+d3.format(',.8f')(d.amount)+' '+coin.toUpperCase());
-    var bbox = svg.getElementById("priceTextTop").getBBox();
-    focus.select('#priceTextTop')
-      .attr('x', x - (bbox.width-8)/2)
-      .attr('y', 4)
-      .text('Price: $'+d3.format(',.2f')(d.price));
-    var bbox = svg.getElementById("priceTextBottom").getBBox();
-    focus.select('#priceTextBottom')
-      .attr('x', x - (bbox.width-8)/2)
-      .attr('y', height-4)
-      .text('Sum: $'+d3.format(',.2f')(d.sumprice));
-
-    var bbox = svg.getElementById("volumeTextRight").getBBox();
-    focus.select('#crosshairBackgroundRight')
-      .attr('x', width - bbox.width + 12)
-      .attr('y', y - 8)
-      .attr('width', bbox.width+4);
-    var bbox = svg.getElementById("priceTextTop").getBBox();
-    focus.select('#crosshairBackgroundTop')
-      .attr('x', x - (bbox.width+4)/2)
-      .attr('width', bbox.width+8);
-    var bbox = svg.getElementById("priceTextBottom").getBBox();
-    focus.select('#crosshairBackgroundBottom')
-      .attr('x', x - (bbox.width+4)/2)
-      .attr('width', bbox.width+8);
-  });
-
-function mapToStructure(data) {
-  return data.map(function(d) {
-  return {
-    price: d[0],
-    amount: Number(+d[1]),
-    sumprice: 0
+  techanSite.data = {
+    btc: { name: 'Bitcoin [BTC]' },
+    xmr: { name: 'Monero [XMR]' },
+    sdc: { name: 'Shadowcash [SDC]' },
+    xcp: { name: 'Counterparty [XCP]' },
+    eth: { name: 'Ethereum [ETH]' },
+    etc: { name: 'Ethereum Classic [ETC]' }
   };
-  }).sort(function(a, b) { return d3.ascending(a.price, b.price); });
-}
+
+  var url = window.location.pathname;
+  var coin = url.substr(1, 3);
+
+  if( coin == 'xmr' ) {
+    var pair = 'BTC_XMR';
+  } else if( coin == 'sdc' ) {
+    var pair = 'BTC_SDC';
+  } else if( coin == 'xcp' ) {
+    var pair = 'BTC_XCP';
+  } else if( coin == 'eth' ) {
+    var pair = 'BTC_ETH';
+  } else if( coin == 'etc' ) {
+    var pair = 'BTC_ETC';
+  } else {
+    var pair = 'USDT_BTC';
+    coin = 'btc';
+  }
+
+  var depth = getUrlParameter('depth');
+  if( !depth ) {
+    depth = 100;
+  }
+
+  var Data = JSON.parse(httpGet('https://poloniex.com/public?command=returnOrderBook&currencyPair='+pair+'&depth='+depth));
+  var asks = mapToStructure(Data['asks']);
+  var bids = mapToStructure(Data['bids']);
+
+  var cum = 0;
+  for(var i = 0, len = asks.length; i < len; i++) {
+    cum += asks[i].amount;
+    asks[i].amount = cum;
+    asks[i].sumprice += asks[i].amount*asks[i].price;
+  }
+  asks.push({price: asks[asks.length-1].price, amount: 0, sumprice: 0});
+  asks.unshift({price: asks[0].price, amount: 0, sumprice: 0});
+
+  bids = bids.reverse();
+
+  cum = 0;
+  for(var i = 0, len = bids.length; i < len; i++) {
+    cum += bids[i].amount;
+    bids[i].amount = cum;
+    bids[i].sumprice += bids[i].amount*bids[i].price;
+  }
+  bids.push({price: bids[bids.length-1].price, amount: 0, sumprice: 0});
+  bids.unshift({price: bids[0].price, amount: 0, sumprice: 0});
+
+  bids = bids.reverse();
+
+  if( coin == 'xmr' ) {
+    techanSite.data.xmr.depth = bids.concat(asks);
+  } else if( coin == 'sdc' ) {
+    techanSite.data.sdc.depth = bids.concat(asks);
+  } else if( coin == 'xcp' ) {
+    techanSite.data.xcp.depth = bids.concat(asks);
+  } else if( coin == 'eth' ) {
+    techanSite.data.eth.depth = bids.concat(asks);
+  } else if( coin == 'etc' ) {
+    techanSite.data.etc.depth = bids.concat(asks);
+  } else {
+    techanSite.data.btc.depth = bids.concat(asks);
+  }
+
+  function DepthChart(market) {
+
+    var dim = {
+      width: $("#depthChart").width(), height: $("#depthChart").height(),
+      margin: { top: 25, right: 50, bottom: 25, left: 50 },
+      plot: { width: null, height: null }
+    };
+
+    var data = market.depth,
+        x = d3.scaleLinear(),
+        y = d3.scaleLinear(),
+        xPrice = d3.extent(data, function(d) { return d.price; }),
+        yVolume = y.copy(),
+        xAxis = d3.axisBottom(x),
+        xAxisTop = d3.axisTop(x),
+        yAxis = d3.axisLeft(y);
+
+    if(market.name == 'Bitcoin [BTC]') {
+      var priceAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.format(',.2f')).width(65),
+          sumAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(d3.format(',.2f')).width(65),
+          depthAnnotation = techan.plot.axisannotation().orient('left').axis(yAxis).format(d3.format(',.2f'));
+    } else {
+      var sumAnnotation = techan.plot.axisannotation().orient('bottom').axis(xAxis).format(d3.format(',.8f')).width(65),
+          priceAnnotation = techan.plot.axisannotation().orient('top').axis(xAxisTop).format(d3.format(',.8f')).width(65),
+          depthAnnotation = techan.plot.axisannotation().orient('left').axis(yAxis).format(d3.format(',.8f'));
+    }
+    
+    var depthCrosshair = techan.plot.crosshair().xScale(x).yScale(y).xAnnotation([sumAnnotation, priceAnnotation]).yAnnotation([depthAnnotation]);
+
+    function depthchart(selection) {
+      var svg = selection.append("svg"),
+          defs = svg.append("defs"),
+          width = dim.width - dim.margin.left - dim.margin.right,
+          height = dim.height + dim.margin.bottom,
+          x = d3.scaleLinear()
+              .range([0, width]),
+          y = d3.scaleLinear()
+              .range([height, 0]),
+          line = d3.line()
+                .x(function(d) { return x(d.price); })
+                .y(function(d) { return y(d.amount); });
+
+      console.log('height: '+height);
+      console.log('dim.height: '+dim.height);
+
+      defs.append("clipPath")
+          .attr("id", "depthClip")
+        .append("rect")
+          .attr("x", 0)
+          .attr("y", 0);
+
+      svg = svg.append("g")
+        .attr("class", "chart")
+        .attr("transform", "translate(" + dim.margin.left + "," + dim.margin.top + ")");
+
+      svg.append("g")
+        .attr("class", "y axis left");
+
+      svg.append("g")
+        .attr("class", "x axis bottom");
+
+      svg.append("g")
+        .attr("class", "x axis top");
+
+      x.domain(d3.extent(data, function(d) { return d.price; }));
+      y.domain(d3.extent(data, function(d) { return d.amount; }));
+
+      var xScale = d3.scaleLinear().range([0, width]).domain(x.domain()),
+          yScale = d3.scaleLinear().range([height, 0]).domain(y.domain());
+
+      svg.append("path")
+        .datum(bids)
+        .attr("class", "line")
+        .attr("class", "bids")
+        .attr("id", "bids")
+        .attr("d", line);
+
+      svg.append("path")
+        .datum(asks)
+        .attr("class", "line")
+        .attr("class", "asks")
+        .attr("id", "asks")
+        .attr("d", line);
+
+      svg.append("g")
+        .attr("class", "price annotation up");
+
+      resize(selection);
+
+      svg.append('g')
+        .attr("class", "crosshair depth");
+
+      svg.select("g.price.annotation").datum([data[data.length-1]]).call(priceAnnotation);
+      svg.select("g.crosshair.depth").call(depthCrosshair);
+
+      selection.call(draw);
+    }
+
+    depthchart.resize = function(selection) {
+      selection.call(resize).call(draw);
+    };
+
+    function resize(selection) {
+      dim.width = $("#depthChart").width();
+      dim.height = $("#depthChart").height();
+      dim.plot.width = dim.width - dim.margin.left - dim.margin.right;
+      dim.plot.height = dim.height - dim.margin.top - dim.margin.bottom;
+
+      console.log('dim.plot.height: '+dim.plot.height);
+
+      var xRange = [0, dim.plot.width],
+          yRange = [dim.plot.height, 0],
+          yTicks = Math.min(10, Math.round(dim.height/70)),
+          xTicks = Math.min(10, Math.round(dim.width/130));
+
+      x.range(xRange);
+      xAxis.ticks(xTicks);
+      y.range(yRange);
+      yAxis.ticks(yTicks);
+      depthCrosshair.verticalWireRange([0, dim.plot.height]);
+
+      selection.select("svg")
+        .attr("width", dim.width)
+        .attr("height", dim.height);
+
+      selection.selectAll("defs #depthClip > rect")
+        .attr("width", dim.plot.width)
+        .attr("height", dim.plot.height);
+
+      selection.select("g.x.axis")
+        .attr("transform", "translate(0," + dim.plot.height + ")");
+
+      selection.select("g.y.axis")
+        .attr("transform", "translate(" + xRange[1] + ",0)");
+
+      selection.selectAll("defs .plotClip > rect")
+        .attr("width", dim.plot.width)
+        .attr("height", dim.plot.height);
+    }
+
+    function draw(selection) {
+      var svg = selection.select("svg");
+      svg.select("g.x.axis").call(xAxis);
+      svg.select("g.y.axis").call(yAxis);
+
+      /*
+      // We know the data does not change, a simple refresh that does not perform data joins will suffice.
+      svg.select("g.candlestick").call(candlestick.refresh);
+      svg.select("g.volume").call(volume.refresh);
+      */
+      svg.select("g.price.annotation").call(priceAnnotation.refresh);
+      svg.select("g.crosshair.depth").call(depthCrosshair.refresh);
+    }
+
+    return depthchart;
+  }
+
+  return DepthChart(techanSite.data[coin]);
+
+  function mapToStructure(data) {
+    return data.map(function(d) {
+      return {
+        price: d[0],
+        amount: Number(+d[1]),
+        sumprice: 0
+      };
+    }).sort(function(a, b) { return d3.ascending(a.price, b.price); });
+  }
+}(d3, techan));
 
 function httpGet(theUrl) {
   var xmlHttp = new XMLHttpRequest();
