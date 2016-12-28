@@ -1,7 +1,20 @@
-#bigChart {
+#bigChart, #depthChart {
   min-height: 25em;
 
   margin-right: 50px;
+}
+
+#depthChart {
+  width: 100%;
+  padding-right: 80px;
+  height: auto;
+  margin-bottom: -50px !important;
+}
+
+#depthChart text {
+  fill: #ddd;
+  font: 7px 'Ubuntu';
+  font-weight: 700;
 }
 
 /* Chart specific styling */
@@ -193,5 +206,32 @@ path.middle, path.zero {
 }
 
 .crosshair .axisannotation path {
+  fill: #333;
+}
+
+.bids {
+  stroke: #afa;
+  fill: #99cc99;
+  fill-opacity: 0.618;
+}
+
+.asks {
+  stroke: #cc6666;
+  fill: #663333;
+  fill-opacity: 0.618;
+}
+
+.overlay {
+  fill: none;
+  stroke: none;
+  pointer-events: all;
+}
+
+.focusLine {
+  stroke: #555555;
+  stroke-dasharray: 1, 1;
+}
+
+.crosshairBackground {
   fill: #333;
 }

@@ -4171,9 +4171,8 @@ tbody.collapse.in {
   position: relative;
   display: block;
   margin-bottom: 0.75rem;
-  background-color: #fff;
   border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgba(255, 255, 255, 0.125);
 }
 
 .card-block {
@@ -4220,7 +4219,7 @@ tbody.collapse.in {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: #f5f5f5;
+  background-color: #111;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>bpoch.info/eth</title>
+    <title>bpoch.info/btc</title>
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
 
     <link href="css/bootstrap-reboot.css" rel="stylesheet">
@@ -53,7 +53,7 @@
 
     include 'php/bpoch.php';
 
-    $bpoch = bpoch('eth');
+    $bpoch = bpoch();
 
     $seconds = $bpoch%(60);
     $minutes = floor($bpoch%(60*60)/(60));
@@ -67,68 +67,14 @@
     ?>
 
     <div class="wrapper">
-      <div id="bigChart"></div>
-
-      <div class="container" id="toolbar">
-        <div class="row flex-items-xs-left">
-          <div class="col-xs-4">
-            <div class="btn-toolbar" role="toolbar">
-              <div class="btn-group btn-group-sm" role="group" aria-label="Zoom">
-                <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Zoom:</button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6h');">6h</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1d');">1d</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '2d');">2d</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1w');">1w</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '2w');">2w</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '1m');">1m</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '3m');">3m</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', '6m');">6m</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('zoom', 'all');">all</a></button>
-              </div>
-            </div>
-          </div>
-          <div class="col-xs-6">
-            <div class="btn-toolbar" role="toolbar">
-              <div class="btn-group btn-group-sm" role="group" aria-label="Candlesticks">
-                <button type="button" class="btn btn-secondary disabled" style="cursor: default;">Candlesticks:</button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '5min');">5min</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '15min');">15min</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '30min');">30min</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '2h');">2hr</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '4h');">4hr</a></button>
-                <button type="button" class="btn btn-secondary"><a href="javascript:addOrUpdateUrlParam('period', '1d');">1d</a></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
       <svg id="depthChart" width="960" height="180"></svg>
-
-      <br><br>
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <p>Ethereum is <span id="age-years"><?php echo $years; ?></span> year<?php echo ( $years > 1 ? 's' : '' ); ?>, <span id="age-months"><?php echo $months; ?></span> month<?php echo ( $months > 1 ? 's' : '' ); ?>, <span id="age-date"><?php echo $date; ?></span> day<?php echo ( $date > 1 ? 's' : '' ); ?>, <span id="age-hours"><?php echo $hours; ?></span> hour<?php echo ( $hours > 1 ? 's' : '' ); ?>, <span id="age-minutes"><?php echo $minutes; ?></span> minutes, and <span id="age-seconds"><?php echo $seconds; ?></span> seconds old.</p>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/js/techan.js"></script>
-    <script src="/js/chart-price.js"></script>
-    <script>
-      (function(window, d3, techanSite) {
-        d3.select('div#bigChart').call(techanSite.bigchart);
-        window.onresize = function() {
-          d3.select('div#bigChart').call(techanSite.bigchart.resize);
-        };
-      })(window, d3, techanSite);
-    </script>
     <script src="/js/chart-depth.js"></script>
-
+    
     <script type="text/javascript">
       var bpoch = <?php echo $bpoch; ?>;
 
@@ -155,9 +101,9 @@
         setTimeout(updateTime, 1000);
       }
     </script>
-    
+
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-    <!-- <script src="/js/bootstrap.min.js"></script> -->
+    <script src="/js/bootstrap.min.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
   </body>
 </html>

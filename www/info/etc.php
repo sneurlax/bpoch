@@ -13,7 +13,7 @@
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <link href="/css/navmenu.css" rel="stylesheet">
     <link href="/css/theme.css" rel="stylesheet">
-    <link href="/css/chart.css" rel="stylesheet">
+    <link href="/css/charts.css" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,700i" rel="stylesheet">
 
@@ -102,7 +102,10 @@
           </div>
         </div>
       </div>
+      
+      <svg id="depthChart" width="960" height="180"></svg>
 
+      <br><br>
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -116,7 +119,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/js/techan.js"></script>
-    <script src="/js/chart.js"></script>
+    <script src="/js/chart-price.js"></script>
     <script>
       (function(window, d3, techanSite) {
         d3.select('div#bigChart').call(techanSite.bigchart);
@@ -125,6 +128,7 @@
         };
       })(window, d3, techanSite);
     </script>
+    <script src="/js/chart-depth.js"></script>
     
     <script type="text/javascript">
       var bpoch = $bpoch;
