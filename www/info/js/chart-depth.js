@@ -13,6 +13,7 @@ if( coin == 'xmr' ) {
   var pair = 'BTC_ETC';
 } else {
   var pair = 'USDT_BTC';
+  coin = 'btc';
 }
 
 var depth = getUrlParameter('depth');
@@ -123,7 +124,7 @@ g.append("g")
   .attr("y", 6)
   .attr("x", -height+74)
   .attr("dy", "0.71em")
-  .text("Volume [BTC]")
+  .text("Volume ["+coin.toUpperCase()+"]")
   .attr("class", "shadow");
 
 var focus = g.append("g").style("display", "none");
@@ -192,7 +193,7 @@ g.append('rect')
     focus.select('#volumeTextRight')
       .attr('x', width-bbox.width+16)
       .attr('y', y+1)
-      .text('Depth: '+d3.format(',.8f')(d.amount)+' BTC');
+      .text('Depth: '+d3.format(',.8f')(d.amount)+' '+coin.toUpperCase());
     var bbox = svg.getElementById("priceTextTop").getBBox();
     focus.select('#priceTextTop')
       .attr('x', x - (bbox.width-8)/2)
