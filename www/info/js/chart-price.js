@@ -53,7 +53,7 @@ techanSite.bigchart = (function(d3, techan) {
   } else if( zoom == '6m' ) {
     start = Math.round((new Date()).getTime() / 1000)-(60*60*24*30.44*6);
   } else if( zoom == '1y' ) {
-    start = Math.round((new Date()).getTime() / 1000)-(60*60**24*30.44*365.25);
+    start = Math.round((new Date()).getTime() / 1000)-(60*60*24*30.44*365.25);
   } else if( zoom == 'all' ) { // these values are the earliest timestamps for which Poloniex has data
     if( coin == 'xmr' ) {
       start = 1400558400;
