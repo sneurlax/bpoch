@@ -50,7 +50,13 @@
 
     <?php
 
-    include 'php/bpoch.php';
+    require_once('php/easybitcoin.php');
+
+    $bitcoind = new Bitcoin('dyvoLlSHZ8PdR1819npDxwOOGHUgjtOS','vWU64ytud9GGqZfhRfBRPGJiQ2sdyb34','104.36.80.109');
+
+    $bitcoininfo = $bitcoind->getinfo();
+
+    require_once('php/bpoch.php');
 
     $bpoch = bpoch();
 
@@ -66,37 +72,28 @@
     ?>
 
     <div class="wrapper">
-      <div class="container" id="age">
+      <div class="container">
         <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-5">
-            <h2 class="display-4">It has been</h2>
+          <div class="col-xl-6">
+            <div class="card card-block" id="age">
+              <h3 class="card-title">Bitcoin's age:</h3>
+              <h4 class="display-4">
+                <span class="chunk"><span id="age-years"><?php echo $years; ?></span>-<span id="age-months"><?php echo $months; ?></span>-<!--<span id="age-weeks"><?php echo $weeks; ?></span><span id="age-days"><?php echo $days; ?></span>--><span id="age-date"><?php echo sprintf("%02d", $date); ?></span></span>&nbsp;<span class="chunk"><span id="age-hours"><?php echo sprintf("%02d", $hours); ?></span>:<span id="age-minutes"><?php echo sprintf("%02d", $minutes); ?></span>:<span id="age-seconds"><?php echo sprintf("%02d", $seconds); ?></span></span>
+              </h4>
+            </div>
           </div>
-          <div class="col-md-4"></div>
-        </div>
-
-        <div class="row flex-items-xs-center">
-          <div class="col-md-3"></div>
-          <div class="col-md-3">
-            <h1 class="display-3">
-              <span id="age-years"><?php echo $years; ?></span>-<span id="age-months"><?php echo $months; ?></span>-<!--<span id="age-weeks"><?php echo $weeks; ?></span><span id="age-days"><?php echo $days; ?></span>--><span id="age-date"><?php echo sprintf("%02d", $date); ?></span>
-            </h1>
+          <div class="col-xl-3">
+            <div class="card card-block">
+              <h3 class="card-title">Highest block:</h3>
+              <h4 class="display-4"><?php echo $bitcoininfo['blocks']; ?></h4>
+            </div>
           </div>
-          &nbsp;
-          <div class="col-md-3">
-            <h1 class="display-3">
-              <span id="age-hours"><?php echo sprintf("%02d", $hours); ?></span>:<span id="age-minutes"><?php echo sprintf("%02d", $minutes); ?></span>:<span id="age-seconds"><?php echo sprintf("%02d", $seconds); ?></span>
-            </h1>
+          <div class="col-xl-2">
+            <div class="card card-block">
+              <h3 class="card-title">Era:</h3>
+              <h4 class="display-4"><?php echo ordinal_suffix(block_era($bitcoininfo['blocks'])); ?></h4>
+            </div>
           </div>
-          <div class="col-md-3"></div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-6">
-            <h2 class="display-4">since bitcoin began</h2>
-          </div>
-          <div class="col-md-2"></div>
         </div>
       </div>
     </div>
@@ -137,3 +134,20 @@
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
   </body>
 </html>
+
+<?php
+
+
+function ordinal_suffix($num) {
+  $num = $num % 100;
+  if($num < 11 || $num > 13){
+     switch($num % 10){
+      case 1: return $num.'st';
+      case 2: return $num.'nd';
+      case 3: return $num.'rd';
+    }
+  }
+  return $num.'th';
+}
+
+?>
