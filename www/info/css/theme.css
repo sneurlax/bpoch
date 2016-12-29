@@ -2,6 +2,15 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+a {
+  color: #afa;
+}
+
+a:hover {
+  color: #669966;
+}
+
+
 header {
 	position: absolute;
 	top: 0;
@@ -86,6 +95,11 @@ header a:hover {
 
 .card h4 span {
   position: relative;
+}
+
+.card-title .glyphicon {
+  font-size: 0.382em;
+  vertical-align: super;
 }
 
 #age .chunk {

@@ -45,6 +45,7 @@
       
       <ul>
         <li><a href="/apidocs">API</a></li>
+        <li><a href="/faq">FAQ</a></li>
       </ul>
     </header>
 
@@ -81,13 +82,13 @@
           </div>
           <div class="col-xl-3">
             <div class="card card-block">
-              <h3 class="card-title">Height:</h3>
+              <h3 class="card-title">Height: <a href="/faq#height"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
               <h4 class="display-4"><?php echo $bitcoininfo['blocks']; ?></h4>
             </div>
           </div>
           <div class="col-xl-2">
             <div class="card card-block">
-              <h3 class="card-title">Era:</h3>
+              <h3 class="card-title">Era: <a href="/faq#era"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
               <h4 class="display-4"><?php echo ordinal_suffix(block_era($bitcoininfo['blocks'])); ?></h4>
             </div>
           </div>

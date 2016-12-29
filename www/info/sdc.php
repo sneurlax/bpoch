@@ -46,6 +46,7 @@
       
       <ul>
         <li><a href="/apidocs">API</a></li>
+        <li><a href="/faq">FAQ</a></li>
       </ul>
     </header>
 

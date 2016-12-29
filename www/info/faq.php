@@ -50,7 +50,13 @@
     </header>
 
     <div class="wrapper">
-      The API has not been implemented yet.
+      <div class="container">
+      <h1><a name="height"></a>What is height?</h1>
+      <p>Height (or "block height") is the number of blocks between a given block and the bitcoin genesis block, or the highest (or most recent) block if no specific block is referenced.</p>
+      <h1><a name="era"></a>What is the bitcoin era?</h1>
+      <p>The era (or "block reward era") refers to the block reward (coinbase) generated per block, which halves every 210000 blocks.  In the first era (block heights 0 to 209999,) 50 BTC were issued per block &mdash; in the 2nd era (blocks 210000 to 419999,) this was halved to 25 BTC.  Now (in the 3rd era,) 12.5 BTC are created per block.</p>
+      <p>Eras are around 4 years long.</p>
+      </div>
     </div>
 
     <!-- <script src="/js/bootstrap.min.js"></script> -->

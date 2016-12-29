@@ -3,7 +3,7 @@ RewriteBase /
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^apidocs(/.*)?$ /apidocs.php [NC,L]
-RewriteRule ^charts(/.*)?$ /charts.php [NC,L]
+RewriteRule ^faq(/.*)?$ /faq.php [NC,L]
 RewriteRule ^btc(/.*)?$ /btc.php [NC,L]
 RewriteRule ^xmr(/.*)?$ /xmr.php [NC,L]
 RewriteRule ^sdc(/.*)?$ /sdc.php [NC,L]
