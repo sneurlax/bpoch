@@ -27,7 +27,7 @@
   <body>
 
     <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-    <label for="nav-trigger"><span class="glyphicon glyphicon-menu-hamburger"></span></label>
+    <label for="nav-trigger"><img src="/img/menu-icon.png"></label>
 
     <nav>
       <ul class="navigation">
