@@ -174,7 +174,7 @@ techanSite.bigchart = (function(d3, techan) {
 
     if(market.name == 'Bitcoin [BTC]') {
       var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.2f')),
-          closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.2f'));
+          closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format('$,.2f'));
     } else {
       var ohlcAnnotation = techan.plot.axisannotation().orient('right').axis(yAxis).format(d3.format(',.8f')),
           closeAnnotation = techan.plot.axisannotation().orient('right').accessor(candlestick.accessor()).axis(yAxis).format(d3.format(',.8f'));
