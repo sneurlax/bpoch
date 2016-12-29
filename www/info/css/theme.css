@@ -84,7 +84,7 @@ header a:hover {
 }
 
 .card {
-  min-height: 85px;
+  min-height: 100px;
 }
 
 .card h4 {
@@ -102,8 +102,10 @@ header a:hover {
   vertical-align: super;
 }
 
-#age .chunk {
+.chunk {
   white-space: nowrap;
+  display: inline-block;
+  margin: auto;
 }
 
 #age #age-years:after, #age #age-months:after, #age #age-weeks:after, #age #age-days:after, #age #age-date:after, #age #age-hours:after, #age #age-minutes:after, #age #age-seconds:after {
