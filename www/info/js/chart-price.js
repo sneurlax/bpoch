@@ -302,7 +302,7 @@ techanSite.bigchart = (function(d3, techan) {
         .attr("height", dim.height);
 
       selection.select("text.version")
-          .attr("x", dim.width-5)
+          .attr("x", dim.width-50)
           .attr("y", dim.height);
 
       selection.selectAll("defs #ohlcClip > rect")
