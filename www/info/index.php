@@ -51,15 +51,12 @@
     <?php
 
     require_once('php/easybitcoin.php');
-
     $bitcoind = new Bitcoin('dyvoLlSHZ8PdR1819npDxwOOGHUgjtOS','vWU64ytud9GGqZfhRfBRPGJiQ2sdyb34','104.36.80.109');
-
     $bitcoininfo = $bitcoind->getinfo();
 
     require_once('php/bpoch.php');
 
     $bpoch = bpoch();
-
     $seconds = $bpoch%(60);
     $minutes = floor($bpoch%(60*60)/(60));
     $hours   = floor($bpoch%(60*60*24)/(60*60));
@@ -82,16 +79,16 @@
               </h4>
             </div>
           </div>
-          <div class="col-xl-2">
-            <div class="card card-block">
-              <h3 class="card-title">Era:</h3>
-              <h4 class="display-4"><?php echo ordinal_suffix(block_era($bitcoininfo['blocks'])); ?></h4>
-            </div>
-          </div>
           <div class="col-xl-3">
             <div class="card card-block">
               <h3 class="card-title">Height:</h3>
               <h4 class="display-4"><?php echo $bitcoininfo['blocks']; ?></h4>
+            </div>
+          </div>
+          <div class="col-xl-2">
+            <div class="card card-block">
+              <h3 class="card-title">Era:</h3>
+              <h4 class="display-4"><?php echo ordinal_suffix(block_era($bitcoininfo['blocks'])); ?></h4>
             </div>
           </div>
         </div>
