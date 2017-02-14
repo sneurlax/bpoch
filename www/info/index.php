@@ -72,24 +72,12 @@
     <div class="wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-xl-6">
+          <div class="col-xl-12">
             <div class="card card-block" id="age">
               <h3 class="card-title">Bitcoin's age:</h3>
               <h4 class="display-4">
                 <span class="chunk"><span id="age-years"><?php echo $years; ?></span>-<span id="age-months"><?php echo $months; ?></span>-<!--<span id="age-weeks"><?php echo $weeks; ?></span><span id="age-days"><?php echo $days; ?></span>--><span id="age-date"><?php echo sprintf("%02d", $date); ?></span></span>&nbsp;<span class="chunk"><span id="age-hours"><?php echo sprintf("%02d", $hours); ?></span>:<span id="age-minutes"><?php echo sprintf("%02d", $minutes); ?></span>:<span id="age-seconds"><?php echo sprintf("%02d", $seconds); ?></span></span>
               </h4>
-            </div>
-          </div>
-          <div class="col-xl-3">
-            <div class="card card-block">
-              <h3 class="card-title">Height: <a href="/faq#height"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
-              <h4 class="display-4"><?php echo $bitcoininfo['blocks']; ?></h4>
-            </div>
-          </div>
-          <div class="col-xl-2">
-            <div class="card card-block">
-              <h3 class="card-title">Era: <a href="/faq#era"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
-              <h4 class="display-4"><?php echo ordinal_suffix(block_era($bitcoininfo['blocks'])); ?></h4>
             </div>
           </div>
         </div>
